@@ -133,7 +133,7 @@ public interface MarkSheetModelInterface {
 	 * 
 	 * @return {@code List} List of ATKT students
 	 */
-	public List<String> getATKTStudents();
+	public List<ArrayList<String>> getATKTStudents();
 
 	/**
 	 * Get the CutOff marks of the result

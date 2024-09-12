@@ -184,19 +184,27 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public LinkedHashSet<ArrayList<String>> getFailedStudentsList() {
-		Set<ArrayList<String>> students = getAll();
-		List<ArrayList<String>> meritStudents1 = new ArrayList<>();
-		students.stream().filter(student -> {
-			int math = Integer.parseInt(student.get(2));
-			int chemistry = Integer.parseInt(student.get(3));
-			int physics = Integer.parseInt(student.get(4));
-			return math < 33 || chemistry < 33 || physics < 33;
-		}).sorted((s1, s2) -> {
-			int total1 = Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(2));
-			int total2 = Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(2));
-			return Integer.compare(total1, total2);
-		}).forEach(meritStudents1::add);
-		return new LinkedHashSet<>(meritStudents1);
+		String query = "SELECT *, (math + chemistry + physics) AS total_marks FROM result1 WHERE math < 33 OR chemistry < 33 OR physics < 33 ORDER BY rollNo";
+		/**
+		 * For logically
+		 * 
+		 * Set<ArrayList<String>> students = getAll();
+		 * List<ArrayList<String>> meritStudents1 = new ArrayList<>();
+		 * students.stream().filter(student -> {
+		 * int math = Integer.parseInt(student.get(2));
+		 * int chemistry = Integer.parseInt(student.get(3));
+		 * int physics = Integer.parseInt(student.get(4));
+		 * return math < 33 || chemistry < 33 || physics < 33;
+		 * }).sorted((s1, s2) -> {
+		 * int total1 = Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(2)) +
+		 * Integer.parseInt(s1.get(2));
+		 * int total2 = Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(2)) +
+		 * Integer.parseInt(s1.get(2));
+		 * return Integer.compare(total1, total2);
+		 * }).forEach(meritStudents1::add);
+		 * 
+		 */
+		return new LinkedHashSet<>(ModelOperation.getSpecific(query));
 	}
 
 	/**
@@ -224,7 +232,8 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public ArrayList<ArrayList<String>> getTopper() {
-		return ModelOperation.getSpecific();
+		String query = "SELECT *, (math + chemistry + physics) AS total_marks FROM result1 WHERE (math + chemistry + physics) = (SELECT MAX(math + chemistry + physics) FROM result1)";
+		return ModelOperation.getSpecific(query);
 	}
 
 	/**
@@ -232,8 +241,15 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public String[][] getLowestMarkStudents() {
+		String query = "SELECT *, (math + chemistry + physics) AS total_marks FROM result1 WHERE (math + chemistry + physics) = (SELECT MIN(math + chemistry + physics) FROM result1)";
+		ArrayList<ArrayList<String>> students = ModelOperation.getSpecific(query);
+		String[][] result = new String[students.size()][];
 
-		throw new UnsupportedOperationException("Unimplemented method 'getLowestMarkStudents'");
+		for (int i = 0; i < students.size(); i++) {
+			ArrayList<String> student = students.get(i);
+			result[i] = student.toArray(new String[student.size()]);
+		}
+		return result;
 	}
 
 	/**
@@ -241,8 +257,14 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public String[][] getPassedStdents() {
-
-		throw new UnsupportedOperationException("Unimplemented method 'getPassedStdents'");
+		String query = "SELECT *, (math + chemistry + physics) AS total_marks FROM result1 WHERE math >= 33 AND chemistry >= 33 AND physics >= 33 ORDER BY rollNo";
+		ArrayList<ArrayList<String>> students = ModelOperation.getSpecific(query);
+		String[][] result = new String[students.size()][];
+		for (int i = 0; i < students.size(); i++) {
+			ArrayList<String> student = students.get(i);
+			result[i] = student.toArray(new String[student.size()]);
+		}
+		return result;
 	}
 
 	/**
@@ -250,7 +272,6 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public double getAverageResultOfClass() {
-
 		throw new UnsupportedOperationException("Unimplemented method 'getAverageResultOfClass'");
 	}
 
@@ -258,9 +279,9 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 * @apiNote Methods 17
 	 */
 	@Override
-	public List<String> getATKTStudents() {
-
-		throw new UnsupportedOperationException("Unimplemented method 'getATKTStudents'");
+	public List<ArrayList<String>> getATKTStudents() {
+		LinkedHashSet<ArrayList<String>> res = getFailedStudentsList();
+		return new ArrayList<>(res);
 	}
 
 	/**
@@ -268,6 +289,7 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public double getCutOff() {
+		LinkedHashSet<ArrayList<String>> data = getAll();
 
 		throw new UnsupportedOperationException("Unimplemented method 'getCutOff'");
 	}

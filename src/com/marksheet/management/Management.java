@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -64,14 +65,16 @@ public class Management implements Colors, Content {
             break;
           case "8":
             Set<ArrayList<String>> studentsInfo = marksheetOperation.getAll();
-            if (!studentsInfo.isEmpty())
+            if (!studentsInfo.isEmpty()) {
+              Display.printMessage("\t\tTotal Students are : ", studentsInfo.size());
               Display.printInformation(studentsInfo);
+            }
             break;
           case "9":
             LinkedHashSet<ArrayList<String>> meritStudents = marksheetOperation.getMeritList();
             if (!meritStudents.isEmpty()) {
               Display.printMessage("\t\tThe Marit List :");
-              Display.printInformation(meritStudents);
+              Display.printInformation(meritStudents, COLUMN_WIDTHS, HEADER);
             }
             break;
           case "10":
@@ -96,8 +99,35 @@ public class Management implements Colors, Content {
             ArrayList<ArrayList<String>> topperStudents = marksheetOperation.getTopper();
             if (!topperStudents.isEmpty()) {
               Display.printMessage("\t\tThe List of topper students : " + topperStudents.size());
-              Display.printInformation(topperStudents, COLUMN_WIDTHS_TOPPER, HEADER_TOPPER);
+              Display.printInformation(topperStudents, COLUMN_WIDTHS_TOTAL_MARKS, HEADER_TOTAL_MARKS);
             }
+            break;
+          case "14":
+            String[][] lowestStudents = marksheetOperation.getLowestMarkStudents();
+            if (lowestStudents != null) {
+              Display.printMessage("\t\tThe List of students who have lowest marks : " + lowestStudents.length);
+              Display.printInformation(lowestStudents, COLUMN_WIDTHS_TOTAL_MARKS, HEADER_TOTAL_MARKS);
+            } else
+              Display.printMessage(BLUE + "\t\tAll student are hoshiyar :)");
+            break;
+          case "15":
+            String[][] passedStudents = marksheetOperation.getPassedStdents();
+            if (passedStudents != null) {
+              Display.printMessage("\t\tThe List of passed students: " + passedStudents.length);
+              Display.printInformation(passedStudents, COLUMN_WIDTHS_TOTAL_MARKS, HEADER_TOTAL_MARKS);
+            } else
+              Display.printMessage(BLUE + "\t\tAll student are hoshiyar :)");
+            break;
+          case "17":
+            List<ArrayList<String>> atktStudents = marksheetOperation.getATKTStudents();
+            if (!atktStudents.isEmpty()) {
+              Display
+                  .printMessage("\t\tThe List of students who ATKT(Allowed to keep terms) : " + atktStudents.size());
+              Display.printInformation(atktStudents);
+            } else
+              Display.printMessage(BLUE + "\t\tAll student are hoshiyar :)");
+            break;
+          case "18":
             break;
           case "19":
             Display.printMessage("\t\tThe total number of Boys students who Passed : ",

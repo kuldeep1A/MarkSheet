@@ -48,8 +48,16 @@ public class ModelOperation extends Connectivity implements Content {
           "\t\tThe data (Information) of the student's with Enrollment " + BLUE + "`" + marksheet.getRollNo() + "`"
               + RESET + " is successfully added to the result.");
     } catch (SQLIntegrityConstraintViolationException e) {
-      System.out.println("\t\t" + "Student is already exists with Enrollment " + BLUE + "`"
-          + marksheet.getRollNo() + "`" + RESET + ", Please enter other Enrollment. and try again.");
+      String errorMessage = e.getMessage();
+      if (errorMessage.contains("for key 'result1.PRIMARY'")) {
+        System.out.println("\t\t" + "Student is already exists with Enrollment " + BLUE + "`"
+            + marksheet.getRollNo() + "`" + RESET + ", Please enter other Enrollment. and try again.");
+      } else if (errorMessage.contains("for key 'result1.email'")) {
+        System.out.println("\t\t" + "Student is already exists with Email " + BLUE + "`"
+            + marksheet.getEmail() + "`" + RESET + ", Please enter other Email. and try again.");
+      } else {
+        System.out.println("\t\tAn Unkown constraint violation occurred: " + errorMessage);
+      }
     } catch (SQLException e) {
       System.out.println("\t\tSQL Exception-> Developer Error");
       e.printStackTrace();
@@ -120,8 +128,7 @@ public class ModelOperation extends Connectivity implements Content {
     return info;
   }
 
-  public static ArrayList<ArrayList<String>> getSpecific() {
-    String query = "SELECT *, (math + chemistry + physics) AS total_marks FROM result1 WHERE (math + chemistry + physics) = (SELECT MAX(math + chemistry + physics) FROM result1)";
+  public static ArrayList<ArrayList<String>> getSpecific(String query) {
     ArrayList<ArrayList<String>> students = new ArrayList<>();
     try {
       resultSet = stmt.executeQuery(query);
