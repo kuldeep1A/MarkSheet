@@ -58,9 +58,8 @@ public class Display implements Content, Colors {
     printBorder(COLUMN_WIDTHS);
   }
 
-  public static <E> void printInformation(E data, int[] columnWidths, ArrayList<String> header) {
-    @SuppressWarnings(value = { "unchecked" })
-    ArrayList<ArrayList<String>> informations = (ArrayList<ArrayList<String>>) data;
+  public static void printInformation(ArrayList<ArrayList<String>> informations, int[] columnWidths,
+      ArrayList<String> header) {
     printHeader(columnWidths, header);
     for (ArrayList<String> student : informations) {
       printRow(student, columnWidths);
@@ -113,6 +112,10 @@ public class Display implements Content, Colors {
   }
 
   public static void printMessage(String message, int count) {
+    System.out.println(message + BLUE + count + RESET);
+  }
+
+  public static void printMessage(String message, double count) {
     System.out.println(message + BLUE + count + RESET);
   }
 

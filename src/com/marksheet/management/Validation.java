@@ -127,16 +127,16 @@ public class Validation implements Colors {
 		}
 	}
 
-	public static boolean confirm() {
+	public static boolean confirm(String message) {
 		while (true) {
-			System.out.println("\n\t\tConfirm to insert data. `y` or `n`");
+			System.out.println("\n\t\tConfirm " + message + " : `y` or `n`");
 			System.out.print("\t\t-> ");
 			String yesOrNo = sc.next().toLowerCase();
 			sc.nextLine();
 			if (yesOrNo.equals("y"))
 				return true;
 			else if (yesOrNo.equals("n")) {
-				System.out.println("\t\tSo Okey, then data not inserted.");
+				System.out.println("\t\tSo Okey, then " + message + " opearation are not performed.");
 				return false;
 			} else
 				System.err.println(RED + "\t\tError: Follow the confirm `y` or `n` rules strictly!" + RESET);

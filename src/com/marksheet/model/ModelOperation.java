@@ -10,6 +10,7 @@ import java.util.LinkedHashSet;
 import com.marksheet.UI.Content;
 import com.marksheet.UI.Display;
 import com.marksheet.management.Marksheet;
+import com.marksheet.management.Validation;
 
 /**
  * Model Operation perform SQL operation to manipulation or intracted with
@@ -84,9 +85,11 @@ public class ModelOperation extends Connectivity implements Content {
       if (resultSet != null && resultSet.next() && resultSet.getInt(1) > 0) {
         pstmt = conn.prepareStatement(deleteQuery);
         pstmt.setString(1, data);
-        if (pstmt.executeUpdate() > 0)
-          System.out.println("\t\tThe data (Information) of the student's with Enrollment " + BLUE + "`" + data + "`"
-              + RESET + " is deleted successfully");
+        if (Validation.confirm("to delete record who have " + field + " with " + data)) {
+          if (pstmt.executeUpdate() > 0)
+            System.out.println("\t\tThe data (Information) of the student's with Enrollment " + BLUE + "`" + data + "`"
+                + RESET + " is deleted successfully");
+        }
       } else
         System.out.println("\t\tThe data (Information) of the student's are not found in over database!!" + RESET);
     } catch (SQLException e) {
@@ -128,11 +131,26 @@ public class ModelOperation extends Connectivity implements Content {
     return info;
   }
 
+  public static ArrayList<ArrayList<String>> get(String query, int column) {
+    ArrayList<ArrayList<String>> students = new ArrayList<>();
+    try {
+      resultSet = stmt.executeQuery(query);
+      while (resultSet.next()) {
+        ArrayList<String> student = new ArrayList<>();
+        addInto(student, resultSet);
+        students.add(new ArrayList<>(student.subList(0, column)));
+      }
+    } catch (SQLException e) {
+      System.err.println(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      e.printStackTrace();
+    }
+    return students;
+  }
+
   public static ArrayList<ArrayList<String>> getSpecific(String query) {
     ArrayList<ArrayList<String>> students = new ArrayList<>();
     try {
       resultSet = stmt.executeQuery(query);
-      resultSetMetaData = resultSet.getMetaData();
 
       while (resultSet.next()) {
         ArrayList<String> student = new ArrayList<>();
@@ -209,6 +227,22 @@ public class ModelOperation extends Connectivity implements Content {
       resultSet = stmt.executeQuery(getQuery);
       if (resultSet.next())
         return resultSet.getInt(1);
+      else {
+        System.err.println(RED + "\t\tDate not found" + RESET);
+      }
+
+    } catch (SQLException e) {
+      System.err.println(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      e.printStackTrace();
+    }
+    return 0;
+  }
+
+  public static double getNumberInformation(String getQuery, String unknown) {
+    try {
+      resultSet = stmt.executeQuery(getQuery);
+      if (resultSet.next())
+        return resultSet.getDouble(1);
       else {
         System.err.println(RED + "\t\tDate not found" + RESET);
       }

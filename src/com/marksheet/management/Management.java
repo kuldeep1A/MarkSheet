@@ -57,6 +57,7 @@ public class Management implements Colors, Content {
             break;
           case "6":
             marksheetOperation.deleteAll();
+            start();
             break;
           case "7":
             ArrayList<String> studentInfo = marksheetOperation.get(Validation.checkEnrollment());
@@ -73,7 +74,7 @@ public class Management implements Colors, Content {
           case "9":
             LinkedHashSet<ArrayList<String>> meritStudents = marksheetOperation.getMeritList();
             if (!meritStudents.isEmpty()) {
-              Display.printMessage("\t\tThe Marit List :");
+              Display.printMessage("\t\tThe Marit List of student who have 80% above percentile :");
               Display.printInformation(meritStudents, COLUMN_WIDTHS, HEADER);
             }
             break;
@@ -118,6 +119,10 @@ public class Management implements Colors, Content {
             } else
               Display.printMessage(BLUE + "\t\tAll student are hoshiyar :)");
             break;
+          case "16":
+            Display.printMessage("\t\tThe average result of Class are : ",
+                marksheetOperation.getAverageResultOfClass());
+            break;
           case "17":
             List<ArrayList<String>> atktStudents = marksheetOperation.getATKTStudents();
             if (!atktStudents.isEmpty()) {
@@ -137,6 +142,11 @@ public class Management implements Colors, Content {
             Display.printMessage("\t\tThe total number of Girls students who Passed : ",
                 marksheetOperation.getNumberOfGirlsPass());
             break;
+          case "21":
+            char Grade = marksheetOperation.getGradeOfStudent(Validation.checkEnrollment());
+            if (Grade != ' ')
+              Display.printMessage("\t\tGrade -> " + Grade);
+            break;
           case "22":
             Display.printMessage("\t\tThe total number of Girls students are: ",
                 marksheetOperation.getTotalNumberOfGirls());
@@ -144,6 +154,14 @@ public class Management implements Colors, Content {
           case "23":
             Display.printMessage("\t\tThe total number of Boys students are: ",
                 marksheetOperation.getTotalNumberOfBoys());
+            break;
+          case "24":
+            Display.printMessage("\t\tThe average result of all Girls are: ",
+                marksheetOperation.getAverageResultOfGirls());
+            break;
+          case "25":
+            Display.printMessage("\t\tThe average result of all Boys are: ",
+                marksheetOperation.getAverageResultOfBoys());
             break;
           case "-1":
             waterMark();
@@ -185,7 +203,6 @@ public class Management implements Colors, Content {
       waterMark();
       e.printStackTrace();
       System.exit(0);
-
     } finally {
       waterMark();
       try {

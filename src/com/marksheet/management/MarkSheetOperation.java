@@ -1,9 +1,9 @@
 package com.marksheet.management;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.marksheet.UI.Colors;
 import com.marksheet.UI.Content;
@@ -40,7 +40,7 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 		inputes(marksheet);
 
 		marksheet.displayDetails();
-		if (Validation.confirm())
+		if (Validation.confirm("to insert record"))
 			ModelOperation.insert(marksheet);
 		return true;
 	}
@@ -57,25 +57,46 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 
 			switch (Validation.checkCommand(7)) {
 				case 1:
-					ModelOperation.update(enrollment, "name", Validation.checkName());
+					String name = Validation.checkName();
+					if (Validation.confirm("to update name")) {
+						ModelOperation.update(enrollment, "name", name);
+					}
 					break;
 				case 2:
-					ModelOperation.update(enrollment, "math", Validation.checkMarks("Math"));
+					int math = Validation.checkMarks("math");
+					if (Validation.confirm("to update math marks")) {
+						ModelOperation.update(enrollment, "math", math);
+					}
 					break;
 				case 3:
-					ModelOperation.update(enrollment, "chemistry", Validation.checkMarks("Chemistry"));
+					int chemistry = Validation.checkMarks("Chemistry");
+					if (Validation.confirm("to update chemistry marks")) {
+						ModelOperation.update(enrollment, "chemistry", chemistry);
+					}
 					break;
 				case 4:
-					ModelOperation.update(enrollment, "physics", Validation.checkMarks("Physics"));
+					int physics = Validation.checkMarks("Physics");
+					if (Validation.confirm("to update physics marks")) {
+						ModelOperation.update(enrollment, "physics", physics);
+					}
 					break;
 				case 5:
-					ModelOperation.update(enrollment, "DOB", Validation.checkDOB());
+					LocalDate DOB = Validation.checkDOB();
+					if (Validation.confirm("to update DOB")) {
+						ModelOperation.update(enrollment, "DOB", DOB);
+					}
 					break;
 				case 6:
-					ModelOperation.update(enrollment, "email", Validation.checkEmail());
+					String email = Validation.checkEmail();
+					if (Validation.confirm("to update email")) {
+						ModelOperation.update(enrollment, "email", email);
+					}
 					break;
 				case 7:
-					ModelOperation.update(enrollment, "gender", Validation.checkGender());
+					char gender = Validation.checkGender();
+					if (Validation.confirm("to update gender")) {
+						ModelOperation.update(enrollment, "gender", gender);
+					}
 					break;
 				default:
 					break;
@@ -98,7 +119,7 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 			marksheet.setName(Validation.checkName());
 			inputes(marksheet);
 			marksheet.displayDetails();
-			if (Validation.confirm()) {
+			if (Validation.confirm("to update all details")) {
 				student = ModelOperation.update(marksheet);
 				if (student != null)
 					Display.printInformation(student, HEADER);
@@ -130,7 +151,9 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public boolean deleteAll() {
-		ModelOperation.deleteTableData();
+		if (Validation.confirm("to delete the entire record of the table")) {
+			ModelOperation.deleteTableData();
+		}
 		return true;
 	}
 
@@ -155,20 +178,25 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public LinkedHashSet<ArrayList<String>> getMeritList() {
-		Set<ArrayList<String>> students = getAll();
-		List<ArrayList<String>> meritStudents1 = new ArrayList<>();
-		students.stream().filter(student -> {
-			int math = Integer.parseInt(student.get(2));
-			int chemistry = Integer.parseInt(student.get(3));
-			int physics = Integer.parseInt(student.get(4));
-			double percent = (math + chemistry + physics) / 3.0;
-			return percent >= 80;
-		}).sorted((s1, s2) -> {
-			int total1 = Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(2));
-			int total2 = Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(2));
-			return Integer.compare(total1, total2);
-		}).forEach(meritStudents1::add);
-		return new LinkedHashSet<>(meritStudents1);
+		String query = "SELECT * FROM result1 WHERE (math + chemistry + physics) / 3.0 >= 80 ORDER BY (math + chemistry + physics) DESC";
+		ArrayList<ArrayList<String>> meritStudents = ModelOperation.get(query, 8);
+		// Set<ArrayList<String>> students = getAll();
+		// List<ArrayList<String>> meritStudents1 = new ArrayList<>();
+		// students.stream().filter(student -> {
+		// int math = Integer.parseInt(student.get(2));
+		// int chemistry = Integer.parseInt(student.get(3));
+		// int physics = Integer.parseInt(student.get(4));
+		// double percent = (math + chemistry + physics) / 3.0;
+		// return percent >= 80;
+		// }).sorted((s1, s2) -> {
+		// int total1 = Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(2)) +
+		// Integer.parseInt(s1.get(2));
+		// int total2 = Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(2)) +
+		// Integer.parseInt(s1.get(2));
+		// return Integer.compare(total1, total2);
+		// }).forEach(meritStudents1::add);
+		// return new LinkedHashSet<>(meritStudents1);
+		return new LinkedHashSet<>(meritStudents);
 	}
 
 	/**
@@ -185,25 +213,24 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	@Override
 	public LinkedHashSet<ArrayList<String>> getFailedStudentsList() {
 		String query = "SELECT *, (math + chemistry + physics) AS total_marks FROM result1 WHERE math < 33 OR chemistry < 33 OR physics < 33 ORDER BY rollNo";
-		/**
-		 * For logically
-		 * 
-		 * Set<ArrayList<String>> students = getAll();
-		 * List<ArrayList<String>> meritStudents1 = new ArrayList<>();
-		 * students.stream().filter(student -> {
-		 * int math = Integer.parseInt(student.get(2));
-		 * int chemistry = Integer.parseInt(student.get(3));
-		 * int physics = Integer.parseInt(student.get(4));
-		 * return math < 33 || chemistry < 33 || physics < 33;
-		 * }).sorted((s1, s2) -> {
-		 * int total1 = Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(2)) +
-		 * Integer.parseInt(s1.get(2));
-		 * int total2 = Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(2)) +
-		 * Integer.parseInt(s1.get(2));
-		 * return Integer.compare(total1, total2);
-		 * }).forEach(meritStudents1::add);
-		 * 
-		 */
+
+		// For logically
+
+		// Set<ArrayList<String>> students = getAll();
+		// List<ArrayList<String>> meritStudents1 = new ArrayList<>();
+		// students.stream().filter(student -> {
+		// int math = Integer.parseInt(student.get(2));
+		// int chemistry = Integer.parseInt(student.get(3));
+		// int physics = Integer.parseInt(student.get(4));
+		// return math < 33 || chemistry < 33 || physics < 33;
+		// }).sorted((s1, s2) -> {
+		// int total1 = Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(2)) +
+		// Integer.parseInt(s1.get(2));
+		// int total2 = Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(2)) +
+		// Integer.parseInt(s1.get(2));
+		// return Integer.compare(total1, total2);
+		// }).forEach(meritStudents1::add);
+
 		return new LinkedHashSet<>(ModelOperation.getSpecific(query));
 	}
 
@@ -212,19 +239,26 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public ArrayList<ArrayList<String>> getAbsenties() {
-		Set<ArrayList<String>> students = getAll();
-		ArrayList<ArrayList<String>> absentStudent = new ArrayList<>();
-		students.stream().filter(student -> {
-			int math = Integer.parseInt(student.get(2));
-			int chemistry = Integer.parseInt(student.get(3));
-			int physics = Integer.parseInt(student.get(4));
-			return math == -1 || chemistry == -1 || physics == -1;
-		}).sorted((s1, s2) -> {
-			int total1 = Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(3)) + Integer.parseInt(s1.get(4));
-			int total2 = Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(3)) + Integer.parseInt(s1.get(4));
-			return Integer.compare(total1, total2);
-		}).forEach(s -> absentStudent.add(new ArrayList<>(s.subList(0, 5))));
-		return absentStudent;
+		String query = "SELECT * FROM result1 WHERE math = -1 OR chemistry = -1 OR physics = -1 ORDER BY (math + chemistry + physics)";
+		ArrayList<ArrayList<String>> absentStudents = ModelOperation.get(query, 5);
+
+		// Set<ArrayList<String>> students = getAll();
+		// ArrayList<ArrayList<String>> absentStudent = new ArrayList<>();
+		// students.stream().filter(student -> {
+		// int math = Integer.parseInt(student.get(2));
+		// int chemistry = Integer.parseInt(student.get(3));
+		// int physics = Integer.parseInt(student.get(4));
+		// return math == -1 || chemistry == -1 || physics == -1;
+		// }).sorted((s1, s2) -> {
+		// int total1 = Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(3)) +
+		// Integer.parseInt(s1.get(4));
+		// int total2 = Integer.parseInt(s1.get(2)) + Integer.parseInt(s1.get(3)) +
+		// Integer.parseInt(s1.get(4));
+		// return Integer.compare(total1, total2);
+		// }).forEach(s -> absentStudent.add(new ArrayList<>(s.subList(0, 5))));
+		// return absentStudent;
+
+		return absentStudents;
 	}
 
 	/**
@@ -272,7 +306,8 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public double getAverageResultOfClass() {
-		throw new UnsupportedOperationException("Unimplemented method 'getAverageResultOfClass'");
+		String query = "SELECT AVG((math + chemistry + physics) / 3.0) AS average_marks FROM result1;";
+		return ModelOperation.getNumberInformation(query, "");
 	}
 
 	/**
@@ -289,8 +324,6 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public double getCutOff() {
-		LinkedHashSet<ArrayList<String>> data = getAll();
-
 		throw new UnsupportedOperationException("Unimplemented method 'getCutOff'");
 	}
 
@@ -317,8 +350,23 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public char getGradeOfStudent(String enrollment) {
+		ArrayList<String> student = get(enrollment);
 
-		throw new UnsupportedOperationException("Unimplemented method 'getGradeOfStudent'");
+		if (!student.isEmpty()) {
+			double averageMarks = (Integer.parseInt(student.get(2)) + Integer.parseInt(student.get(3))
+					+ Integer.parseInt(student.get(4))) / 3.0;
+			if (averageMarks >= 90)
+				return 'A';
+			else if (averageMarks >= 80)
+				return 'B';
+			else if (averageMarks >= 70)
+				return 'C';
+			else if (averageMarks >= 60)
+				return 'D';
+			else
+				return 'E';
+		}
+		return ' ';
 	}
 
 	/**
@@ -342,8 +390,8 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public double getAverageResultOfGirls() {
-
-		throw new UnsupportedOperationException("Unimplemented method 'getAverageResultOfGirls'");
+		String query = "SELECT AVG((math + chemistry + physics) / 3.0 ) AS average_marks FROM result1 WHERE gender = 'F';";
+		return ModelOperation.getNumberInformation(query, "");
 	}
 
 	/**
@@ -351,8 +399,8 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public double getAverageResultOfBoys() {
-
-		throw new UnsupportedOperationException("Unimplemented method 'getAverageResultOfBoys'");
+		String query = "SELECT AVG((math + chemistry + physics) / 3.0 ) AS average_marks FROM result1 WHERE gender = 'M';";
+		return ModelOperation.getNumberInformation(query, "");
 	}
 
 }
