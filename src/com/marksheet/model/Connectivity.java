@@ -1,19 +1,21 @@
 package com.marksheet.model;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.marksheet.UI.Colors;
 import com.marksheet.UI.Display;
 import com.marksheet.management.MarkSheetOperation;
 import com.marksheet.management.Marksheet;
+import com.marksheet.management.Validation;
 import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 
 /**
@@ -29,18 +31,44 @@ public class Connectivity implements Colors {
 	public static Statement stmt = null;
 	public static PreparedStatement pstmt = null;
 	public static ResultSet resultSet = null;
-	public static ResultSetMetaData resultSetMetaData = null;
+	public static String table = null;
 
 	public static boolean connect() {
+		ArrayList<String> tableNames = new ArrayList<>();
+		int i = 1;
 		try {
 			Class.forName(rb.getString("DRIVER"));
 			conn = DriverManager.getConnection(rb.getString("URL"), rb.getString("USER"), rb.getString("PASSWORD"));
+			DatabaseMetaData dmd = conn.getMetaData();
+
+			String catalog = conn.getCatalog();
+			ResultSet rsTable = dmd.getTables(catalog, null, "%", new String[] { "TABLE" });
+
+			Display.loading("Loading tables ");
+			Display.printMessage("\n\n\t\tTables in the database:");
+
+			while (rsTable.next()) {
+				String tableName = rsTable.getString("TABLE_NAME");
+				tableNames.add(tableName);
+				Display.printMessage("\t\t" + i++ + ". " + "Table : " + tableName);
+			}
+			Display.printMessage("\t\t" + i++ + ". " + "Create new Table");
+
+			int commad = Validation.checkCommand(tableNames.size() + 1);
+
+			if (commad == tableNames.size() + 1) {
+				table = Validation.checkTable(tableNames);
+			} else
+				table = tableNames.get(commad - 1);
+
 			stmt = conn.createStatement();
 			stmt.executeUpdate(
-					"CREATE TABLE IF NOT EXISTS result1 ( rollNo VARCHAR(13) NOT NULL, name VARCHAR(255) NOT NULL, math INT NOT NULL, chemistry INT NOT NULL, physics INT NOT NULL, DOB DATE NOT NULL, email VARCHAR(255) NOT NULL, gender CHAR(1) NOT NULL, PRIMARY KEY (rollNo), UNIQUE (email) );");
+					"CREATE TABLE IF NOT EXISTS " + table
+							+ " ( rollNo VARCHAR(13) NOT NULL, name VARCHAR(255) NOT NULL, math INT NOT NULL, chemistry INT NOT NULL, physics INT NOT NULL, DOB DATE NOT NULL, email VARCHAR(255) NOT NULL, gender CHAR(1) NOT NULL, PRIMARY KEY (rollNo), UNIQUE (email) );");
 
-			String selectQuery = "SELECT * FROM result1";
+			String selectQuery = "SELECT * FROM " + table;
 			ResultSet resultSet = stmt.executeQuery(selectQuery);
+
 			while (!resultSet.next()) {
 				System.out
 						.println(CYAN2 +
@@ -50,27 +78,27 @@ public class Connectivity implements Colors {
 				resultSet = stmt.executeQuery(selectQuery);
 			}
 		} catch (ClassNotFoundException e) {
-			System.err.println(
+			Display.printMessage(
 					RED + "\n\t\tError DBMS: " + RESET + CYAN2
 							+ "MySql Driver not found, please connect the connector for creating a brige." + RESET);
-			System.out.println("Eror-2");
-			e.printStackTrace();
+			Display.printMessage("Eror-2");
+			// e.printStackTrace();
 		} catch (CommunicationsException e) {
-			System.err.println(RED + "\n\t\tCommunications Exception: " + RESET + CYAN2
+			Display.printMessage(RED + "\n\t\tCommunications Exception: " + RESET + CYAN2
 					+ "It cause because dbms server may not start or dbms are not running." + RESET);
 			Display.waterMark();
-			System.out.println("Eror-3");
+			Display.printMessage("Eror-3");
 			System.exit(0);
 		} catch (SQLSyntaxErrorException e) {
-			System.err.println(RED + "\n\t\tSQL Exception: " + RESET + CYAN2 + e.getMessage() + RESET);
+			Display.printMessage(RED + "\n\t\tSQL Exception: " + RESET + CYAN2 + e.getMessage() + RESET);
 			Display.waterMark();
-			System.out.println("Eror-4");
-			// e.printStackTrace();
+			Display.printMessage("Eror-4");
+			// // e.printStackTrace();
 			System.exit(0);
 		} catch (SQLException e) {
-			System.err.println(RED + "\n\t\tSQL Exception: " + RESET + CYAN2 + e.getMessage() + RESET);
+			Display.printMessage(RED + "\n\t\tSQL Exception: " + RESET + CYAN2 + e.getMessage() + RESET);
 			Display.waterMark();
-			System.out.println("Eror-5");
+			Display.printMessage("Eror-5");
 			System.exit(0);
 		}
 		return true;

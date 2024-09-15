@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * Display message or Document to the console
  */
-public class Display implements Content, Colors {
+public class Display extends Thread implements Content, Colors {
 
   public static void printFormattedLine(String text, int boxWidth) {
     int padding = boxWidth - text.length() - 9;
@@ -24,15 +24,15 @@ public class Display implements Content, Colors {
   }
 
   private static void printBorder(int[] columnWidths) {
-    System.out.print("\t\t+");
+    Display._printMessage("\t\t+");
     for (int width : columnWidths) {
-      System.out.print("-".repeat(width + 2) + "+");
+      Display._printMessage("-".repeat(width + 2) + "+");
     }
     System.out.println();
   }
 
   private static void printRow(ArrayList<String> rowData, int[] columnWidths) {
-    System.out.print("\t\t|");
+    Display._printMessage("\t\t|");
     for (int i = 0; i < rowData.size(); i++) {
       String format = " %-" + columnWidths[i] + "s |";
       System.out.printf(format, rowData.get(i));
@@ -41,7 +41,7 @@ public class Display implements Content, Colors {
   }
 
   private static void printRow(String[] rowData, int[] columnWidths) {
-    System.out.print("\t\t|");
+    Display._printMessage("\t\t|");
     for (int i = 0; i < rowData.length; i++) {
       String format = " %-" + columnWidths[i] + "s |";
       System.out.printf(format, rowData[i]);
@@ -130,6 +130,10 @@ public class Display implements Content, Colors {
     System.out.println(message);
   }
 
+  public static void _printMessage(String message) {
+    System.out.print(message);
+  }
+
   public static void printRules(int c) {
     switch (c) {
       case 1:
@@ -178,11 +182,26 @@ public class Display implements Content, Colors {
                   	""" + RESET);
         break;
       case 6:
-        System.out.print("\n\n\t\tMarks:");
+        Display._printMessage("\n\n\t\tMarks:");
         System.out.println(GREEN + """
             \n\t\tRules:
               \t\t1. Marks between 1 and 100
               \t\t2. -1 for absent
+              """ + RESET);
+        break;
+      case 7:
+        System.out.println(GREEN + """
+            \n\t\tRules:
+              \t\t\t1. Use Lowercase Letters
+              \t\t\t2. Use Underscores for Separating Words
+              \t\t\t3. Be Descriptive
+              \t\t\t4. Use Singular or Plural Consistently
+              \t\t\t5. Avoid Reserved Keywords
+              \t\t\t6. No Special Characters
+              \t\t\t7. Use Prefixes for Clarity (Optional)
+              \t\t\t8. Limit the Length
+              \t\t\t9. Avoid Abbreviations (Unless Well-Known)
+              \t\t\t10. Do not use a previously created name
               """ + RESET);
         break;
 
@@ -199,5 +218,24 @@ public class Display implements Content, Colors {
     Display.printInformation(_waterMark, _waterMark.length() + 13);
     Display.printInformation(_signature, _waterMark.length() + 17);
     Display.printInformation(_signature2, _signature2.length() + 17);
+  }
+
+  public static void loading(String message) {
+    Display._printMessage(HIDE_CURSOR);
+    Display._printMessage("\t\t" + message);
+
+    for (int i = 0; i < Math.ceil(Math.random() * (25 - 8) + 12); i++) {
+      Display._printMessage(".");
+      System.out.flush();
+      try {
+        sleep(100);
+      } catch (InterruptedException e) {
+        System.out.println(e.getMessage());
+      }
+    }
+
+    System.out.println();
+    Display._printMessage(SHOW_CURSOR);
+    System.out.flush();
   }
 }

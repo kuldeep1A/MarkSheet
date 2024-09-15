@@ -28,9 +28,9 @@ public class Management implements Colors, Content {
   private void operationByCommand() {
     MarkSheetOperation marksheetOperation = new MarkSheetOperation();
     while (true) {
-      System.out.println(YELLOW2 + COMMANDS_DETAILS + RESET);
+      Display.printMessage(YELLOW2 + COMMANDS_DETAILS + RESET);
       Display.printInformation(CYAN2 + COMMANDS_RULES + RESET, COMMANDS_RULES.length() + 26);
-      System.out.print("\n\t\tCommand -> ");
+      Display._printMessage("\n\t\tCommand -> ");
       try {
         String command = sc.nextLine().toLowerCase().trim();
         switch (command) {
@@ -157,6 +157,10 @@ public class Management implements Colors, Content {
             Display.printMessage("\t\tThe average result of all Boys are: ",
                 marksheetOperation.getAverageResultOfBoys());
             break;
+          case "26":
+            Display.printMessage("\n\n");
+            connect();
+            break;
           case "\\-1":
             if (Validation.confirm("to terminat MarkSheet-Managment")) {
               Display.waterMark();
@@ -170,14 +174,14 @@ public class Management implements Colors, Content {
             }
             break;
           default:
-            System.err.println(RED + "\t\tError: Follow the commands rules strictly!" + RESET);
+            Display.printMessage(RED + "\t\tError: Follow the commands rules strictly!" + RESET);
             break;
         }
       } catch (InputMismatchException e) {
-        System.err.println(RED + "\t\tError: Follow the commands rules strictly!" + RESET);
+        Display.printMessage(RED + "\t\tError: Follow the commands rules strictly!" + RESET);
         sc.nextLine();
-        System.out.println("Eror-1");
-        e.printStackTrace();
+        Display.printMessage("Eror-1");
+        // e.printStackTrace();
       }
     }
   }
@@ -194,15 +198,16 @@ public class Management implements Colors, Content {
         Connectivity.conn.close();
         Connectivity.stmt.close();
         Connectivity.pstmt.close();
+        Connectivity.resultSet.close();
       } catch (NullPointerException e) {
-        System.err.println(RED + "\n\t\tNull Pointer Exception:" + RESET);
-        System.out.println("Eror-5");
-        e.printStackTrace();
+        Display.printMessage(RED + "\n\t\tNull Pointer Exception:" + RESET);
+        Display.printMessage("Eror-5.1");
+        // e.printStackTrace();
         System.exit(0);
       } catch (SQLException e) {
-        System.err.println(RED + "\n\t\tSQL Exception: " + RESET);
-        System.out.println("Eror-6");
-        e.printStackTrace();
+        Display.printMessage(RED + "\n\t\tSQL Exception: " + RESET);
+        Display.printMessage("Eror-6");
+        // e.printStackTrace();
         System.exit(0);
       }
     }

@@ -9,6 +9,10 @@ import java.util.Arrays;
  * @apiNote Store the document or message
  */
 public interface Content {
+	String HIDE_CURSOR = "\u001B[?25l";
+
+	String SHOW_CURSOR = "\u001B[?25h";
+
 	ArrayList<String> HEADER = new ArrayList<>(
 			Arrays.asList("Enrollment", "Name", "Math", "Chemistry", "Physics", "DOB", "Email", "Gender"));
 
@@ -58,6 +62,7 @@ public interface Content {
 			\t\t\t\t\t23.\tGet the total number of boys
 			\t\t\t\t\t24.\tGet the average result of the all grils
 			\t\t\t\t\t25.\tGet the average result of the all boys
+			\t\t\t\t\t26.\tChange the result set
 			    """;
 	String SPECIFIC_COMMANDS_DETAIL = """
 			\n\n\t\tFollow the commands to update specific details
