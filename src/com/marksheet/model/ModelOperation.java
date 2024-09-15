@@ -61,6 +61,7 @@ public class ModelOperation extends Connectivity implements Content {
       }
     } catch (SQLException e) {
       System.out.println("\t\tSQL Exception-> Developer Error");
+      System.out.println("Eror-6");
       e.printStackTrace();
     }
   }
@@ -73,6 +74,7 @@ public class ModelOperation extends Connectivity implements Content {
       return pstmt.executeQuery();
     } catch (Exception e) {
       System.err.println(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      System.out.println("Eror-7");
       e.printStackTrace();
     }
     return null;
@@ -94,6 +96,7 @@ public class ModelOperation extends Connectivity implements Content {
         System.out.println("\t\tThe data (Information) of the student's are not found in over database!!" + RESET);
     } catch (SQLException e) {
       System.err.println(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      System.out.println("Eror-8");
       e.printStackTrace();
     }
   }
@@ -105,6 +108,7 @@ public class ModelOperation extends Connectivity implements Content {
       stmt.executeUpdate(deleteQuery);
     } catch (SQLException e) {
       System.err.println("delete table");
+      System.out.println("Eror-9");
       e.printStackTrace();
     }
   }
@@ -116,16 +120,16 @@ public class ModelOperation extends Connectivity implements Content {
       pstmt = conn.prepareStatement(getQuery);
       pstmt.setString(1, enrollment);
       resultSet = pstmt.executeQuery();
-      if (resultSet.next()) {
+      if (resultSet.next())
         addInto(info, resultSet);
-      } else {
+      else
         System.out
             .println(
                 RED + "\t\tData not found: " + RESET + "Student's information with " + CYAN + "`" + enrollment + "`"
                     + RESET + " is not found in over database.");
-      }
     } catch (SQLException e) {
       System.err.println(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      System.out.println("Eror-10");
       e.printStackTrace();
     }
     return info;
@@ -142,6 +146,7 @@ public class ModelOperation extends Connectivity implements Content {
       }
     } catch (SQLException e) {
       System.err.println(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      System.out.println("Eror-11");
       e.printStackTrace();
     }
     return students;
@@ -160,6 +165,7 @@ public class ModelOperation extends Connectivity implements Content {
       }
     } catch (SQLException e) {
       System.err.println(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      System.out.println("Eror-11");
       e.printStackTrace();
     }
     return students;
@@ -179,6 +185,7 @@ public class ModelOperation extends Connectivity implements Content {
       return students;
     } catch (SQLException e) {
       System.err.println(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      System.out.println("Eror-12");
       e.printStackTrace();
     }
     return null;
@@ -197,6 +204,7 @@ public class ModelOperation extends Connectivity implements Content {
       Display.printInformation(get(enrollment), HEADER);
     } catch (Exception e) {
       System.err.println(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      System.out.println("Eror-13");
       e.printStackTrace();
     }
   }
@@ -217,28 +225,13 @@ public class ModelOperation extends Connectivity implements Content {
       return get(marksheet.getRollNo());
     } catch (Exception e) {
       System.err.println(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      System.out.println("Eror-14");
       e.printStackTrace();
     }
     return null;
   }
 
-  public static int getNumberInformation(String getQuery) {
-    try {
-      resultSet = stmt.executeQuery(getQuery);
-      if (resultSet.next())
-        return resultSet.getInt(1);
-      else {
-        System.err.println(RED + "\t\tDate not found" + RESET);
-      }
-
-    } catch (SQLException e) {
-      System.err.println(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
-      e.printStackTrace();
-    }
-    return 0;
-  }
-
-  public static double getNumberInformation(String getQuery, String unknown) {
+  public static double getNumberInformation(String getQuery) {
     try {
       resultSet = stmt.executeQuery(getQuery);
       if (resultSet.next())
@@ -249,6 +242,7 @@ public class ModelOperation extends Connectivity implements Content {
 
     } catch (SQLException e) {
       System.err.println(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      System.out.println("Eror-15");
       e.printStackTrace();
     }
     return 0;

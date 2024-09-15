@@ -11,4 +11,11 @@ public interface Colors {
   String BLUE = "\u001B[34m";
   String PURPLE = "\u001B[35m";
   String CYAN = "\u001B[36m";
+  String RED2 = "\u001B[91m";
+  String GREEN2 = "\u001B[92m";
+  String YELLOW2 = "\u001B[93m";
+  String BLUE2 = "\u001B[94m";
+  String PURPLE2 = "\u001B[95m";
+  String CYAN2 = "\u001B[96m";
+  String WHITE = "\u001B[97m";
 }

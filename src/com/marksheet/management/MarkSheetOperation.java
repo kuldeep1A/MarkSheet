@@ -15,16 +15,10 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 		marksheet.setEmail(Validation.checkEmail());
 		marksheet.setGender(Validation.checkGender());
 		marksheet.setDOB(Validation.checkDOB());
-		System.out.print("\n\n\t\tMarks:");
-		System.out.println(GREEN + """
-				\n\t\tRules:
-					\t\t1. Marks between 1 and 100
-					\t\t2. -1 for absent
-					""" + RESET);
+		Display.printRules(6);
 		marksheet.setMath(Validation.checkMarks("Math"));
 		marksheet.setChemistry(Validation.checkMarks("Chemistry"));
 		marksheet.setPhysics(Validation.checkMarks("Physics"));
-
 	}
 
 	/**
@@ -204,7 +198,7 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public int numberOfStudent() {
-		return ModelOperation.getNumberInformation("SELECT COUNT(*) FROM result1");
+		return (int) ModelOperation.getNumberInformation("SELECT COUNT(*) FROM result1");
 	}
 
 	/**
@@ -307,7 +301,7 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	@Override
 	public double getAverageResultOfClass() {
 		String query = "SELECT AVG((math + chemistry + physics) / 3.0) AS average_marks FROM result1;";
-		return ModelOperation.getNumberInformation(query, "");
+		return ModelOperation.getNumberInformation(query);
 	}
 
 	/**
@@ -332,7 +326,7 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public int getNumberOfBoysPass() {
-		return ModelOperation.getNumberInformation(
+		return (int) ModelOperation.getNumberInformation(
 				"SELECT COUNT(*) FROM result1 WHERE gender = 'M' AND math >= 33 AND chemistry >= 33 AND physics >= 33");
 	}
 
@@ -341,7 +335,7 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public int getNumberOfGirlsPass() {
-		return ModelOperation.getNumberInformation(
+		return (int) ModelOperation.getNumberInformation(
 				"SELECT COUNT(*) FROM result1 WHERE gender = 'F' AND math >= 33 AND chemistry >= 33 AND physics >= 33");
 	}
 
@@ -374,7 +368,7 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public int getTotalNumberOfGirls() {
-		return ModelOperation.getNumberInformation("SELECT COUNT(*) FROM result1 WHERE gender='F'");
+		return (int) ModelOperation.getNumberInformation("SELECT COUNT(*) FROM result1 WHERE gender='F'");
 	}
 
 	/**
@@ -382,7 +376,7 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public int getTotalNumberOfBoys() {
-		return ModelOperation.getNumberInformation("SELECT COUNT(*) FROM result1 WHERE gender='M'");
+		return (int) ModelOperation.getNumberInformation("SELECT COUNT(*) FROM result1 WHERE gender='M'");
 	}
 
 	/**
@@ -391,7 +385,7 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	@Override
 	public double getAverageResultOfGirls() {
 		String query = "SELECT AVG((math + chemistry + physics) / 3.0 ) AS average_marks FROM result1 WHERE gender = 'F';";
-		return ModelOperation.getNumberInformation(query, "");
+		return ModelOperation.getNumberInformation(query);
 	}
 
 	/**
@@ -400,7 +394,7 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	@Override
 	public double getAverageResultOfBoys() {
 		String query = "SELECT AVG((math + chemistry + physics) / 3.0 ) AS average_marks FROM result1 WHERE gender = 'M';";
-		return ModelOperation.getNumberInformation(query, "");
+		return ModelOperation.getNumberInformation(query);
 	}
 
 }

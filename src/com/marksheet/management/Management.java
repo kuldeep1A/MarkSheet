@@ -12,7 +12,6 @@ import com.marksheet.UI.Colors;
 import com.marksheet.UI.Content;
 import com.marksheet.UI.Display;
 import com.marksheet.model.Connectivity;
-import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 
 /**
  * Management all the Marksheet of all student's
@@ -22,23 +21,18 @@ import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 public class Management implements Colors, Content {
   private Scanner sc = new Scanner(System.in);
 
-  private boolean connect() throws ClassNotFoundException, SQLException {
+  private boolean connect() {
     return Connectivity.connect();
-  }
-
-  private final void waterMark() {
-    System.out.println("\n\t\tThanks for use Marksheet Management Application.\n\t\tCreated By: " + BLUE
-        + "https://kuldeep1a.web.app/" + RESET);
   }
 
   private void operationByCommand() {
     MarkSheetOperation marksheetOperation = new MarkSheetOperation();
-    outerLoop: while (true) {
-      System.out.println(YELLOW + COMMANDS_DETAILS + RESET);
-      System.out.println(CYAN + COMMANDS_RULES + RESET);
+    while (true) {
+      System.out.println(YELLOW2 + COMMANDS_DETAILS + RESET);
+      Display.printInformation(CYAN2 + COMMANDS_RULES + RESET, COMMANDS_RULES.length() + 26);
       System.out.print("\n\t\tCommand -> ");
       try {
-        String command = sc.nextLine();
+        String command = sc.nextLine().toLowerCase().trim();
         switch (command) {
           case "1":
             marksheetOperation.add(new Marksheet());
@@ -163,14 +157,18 @@ public class Management implements Colors, Content {
             Display.printMessage("\t\tThe average result of all Boys are: ",
                 marksheetOperation.getAverageResultOfBoys());
             break;
-          case "-1":
-            waterMark();
-            System.exit(0);
-            break outerLoop;
-          case "exit":
-            waterMark();
-            System.exit(0);
-            break outerLoop;
+          case "\\-1":
+            if (Validation.confirm("to terminat MarkSheet-Managment")) {
+              Display.waterMark();
+              System.exit(0);
+            }
+            break;
+          case "\\exit":
+            if (Validation.confirm("to terminat MarkSheet-Managment")) {
+              Display.waterMark();
+              System.exit(0);
+            }
+            break;
           default:
             System.err.println(RED + "\t\tError: Follow the commands rules strictly!" + RESET);
             break;
@@ -178,33 +176,19 @@ public class Management implements Colors, Content {
       } catch (InputMismatchException e) {
         System.err.println(RED + "\t\tError: Follow the commands rules strictly!" + RESET);
         sc.nextLine();
+        System.out.println("Eror-1");
         e.printStackTrace();
       }
     }
   }
 
   public void start() {
-    System.out.println(WELCOME);
-
+    Display.printInformation(CYAN2 + WELCOME + RESET, WELCOME.length() + 26);
     try {
       connect();
       operationByCommand();
-    } catch (ClassNotFoundException e) {
-      System.err.println(
-          RED + "\n\t\tError DBMS: MySql Driver not found, please connect the connector for creating a brige." + RESET);
-      e.printStackTrace();
-    } catch (CommunicationsException e) {
-      System.err.println(RED + "\n\t\tCommunications Exception: " + RESET
-          + "It cause because dbms server may not start or dbms are not running.");
-      waterMark();
-      System.exit(0);
-    } catch (SQLException e) {
-      System.err.println(RED + "\n\t\tSQL Exception: " + RESET);
-      waterMark();
-      e.printStackTrace();
-      System.exit(0);
     } finally {
-      waterMark();
+      Display.waterMark();
       try {
         sc.close();
         Connectivity.conn.close();
@@ -212,9 +196,12 @@ public class Management implements Colors, Content {
         Connectivity.pstmt.close();
       } catch (NullPointerException e) {
         System.err.println(RED + "\n\t\tNull Pointer Exception:" + RESET);
+        System.out.println("Eror-5");
+        e.printStackTrace();
         System.exit(0);
       } catch (SQLException e) {
         System.err.println(RED + "\n\t\tSQL Exception: " + RESET);
+        System.out.println("Eror-6");
         e.printStackTrace();
         System.exit(0);
       }
