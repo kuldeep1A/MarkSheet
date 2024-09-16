@@ -83,14 +83,19 @@ public class Marksheet implements Colors {
 		int boxWidth = 66;
 		Display.printBorder(boxWidth);
 		Display.printFormattedLine("Information of Student's", boxWidth);
-		Display.printFormattedLine("Enrollment: " + BLUE + rollNo + RESET, boxWidth + 9);
+		Display.printFormattedLine("Enrollment: " + BLUE + rollNo + RESET,
+				boxWidth + 9);
 		Display.printFormattedLine("Name: " + BLUE + name + RESET, boxWidth + 9);
 		Display.printFormattedLine("Email: " + BLUE + email + RESET, boxWidth + 9);
-		Display.printFormattedLine("Date of Brith: " + BLUE + DOB.toString() + RESET, boxWidth + 9);
-		Display.printFormattedLine("Gender: " + BLUE + gender + RESET, boxWidth + 9);
+		Display.printFormattedLine(
+				"Date of Brith: " + BLUE + DOB.toString() + RESET, boxWidth + 9);
+		Display.printFormattedLine("Gender: " + BLUE + gender + RESET,
+				boxWidth + 9);
 		Display.printFormattedLine("Math: " + BLUE + math + RESET, boxWidth + 9);
-		Display.printFormattedLine("Physics: " + BLUE + physics + RESET, boxWidth + 9);
-		Display.printFormattedLine("Chemistry: " + BLUE + chemistry + RESET, boxWidth + 9);
+		Display.printFormattedLine("Physics: " + BLUE + physics + RESET,
+				boxWidth + 9);
+		Display.printFormattedLine("Chemistry: " + BLUE + chemistry + RESET,
+				boxWidth + 9);
 		Display.printBorder(boxWidth);
 	}
 }

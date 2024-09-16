@@ -7,7 +7,6 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
-import com.marksheet.UI.Content;
 import com.marksheet.UI.Display;
 import com.marksheet.management.Marksheet;
 import com.marksheet.management.Validation;
@@ -19,8 +18,9 @@ import com.marksheet.management.Validation;
  * @apiNote SQL Operation
  * @apiNote Model
  */
-public class ModelOperation extends Connectivity implements Content {
-  private static void addInto(ArrayList<String> info, ResultSet resultSet) throws SQLException {
+public class ModelOperation extends Connectivity {
+  private static void addInto(ArrayList<String> info, ResultSet resultSet)
+      throws SQLException {
     info.add(resultSet.getString("rollNo"));
     info.add(resultSet.getString("name"));
     info.add(Integer.toString(resultSet.getInt("math")));
@@ -47,35 +47,44 @@ public class ModelOperation extends Connectivity implements Content {
 
       pstmt.executeUpdate();
       Display.printMessage(
-          "\t\tThe data (Information) of the student's with Enrollment " + BLUE + "`" + marksheet.getRollNo() + "`"
-              + RESET + " is successfully added to the result.");
+          "\t\tThe data (Information) of the student's with Enrollment " + BLUE
+              + "`" + marksheet.getRollNo() + "`" + RESET
+              + " is successfully added to the result.");
     } catch (SQLIntegrityConstraintViolationException e) {
       String errorMessage = e.getMessage();
-      if (errorMessage.contains("for key '" + Connectivity.TABLE_NAME + ".PRIMARY'")) {
-        Display.printMessage("\t\t" + "Student is already exists with Enrollment " + BLUE + "`"
-            + marksheet.getRollNo() + "`" + RESET + ", Please enter other Enrollment. and try again.");
-      } else if (errorMessage.contains("for key '" + Connectivity.TABLE_NAME + ".email'")) {
-        Display.printMessage("\t\t" + "Student is already exists with Email " + BLUE + "`"
-            + marksheet.getEmail() + "`" + RESET + ", Please enter other Email. and try again.");
+      if (errorMessage
+          .contains("for key '" + Connectivity.TABLE_NAME + ".PRIMARY'")) {
+        Display
+            .printMessage("\t\t" + "Student is already exists with Enrollment "
+                + BLUE + "`" + marksheet.getRollNo() + "`" + RESET
+                + ", Please enter other Enrollment. and try again.");
+      } else if (errorMessage
+          .contains("for key '" + Connectivity.TABLE_NAME + ".email'")) {
+        Display.printMessage("\t\t" + "Student is already exists with Email "
+            + BLUE + "`" + marksheet.getEmail() + "`" + RESET
+            + ", Please enter other Email. and try again.");
       } else {
-        Display.printMessage("\t\tAn Unkown constraint violation occurred: " + errorMessage);
+        Display.printMessage(
+            "\t\tAn Unkown constraint violation occurred: " + errorMessage);
       }
     } catch (SQLException e) {
       Display.printMessage("\t\tSQL Exception-> Developer Error");
       Display.printMessage("Eror-6");
       // e.printStackTrace();
     }
+
   }
 
   public static ResultSet find(String data, String field) {
-    String checkQuery = "SELECT COUNT(*) FROM " + Connectivity.TABLE_NAME + " WHERE " + field + " = ?";
+    String checkQuery = "SELECT COUNT(*) FROM " + Connectivity.TABLE_NAME
+        + " WHERE " + field + " = ?";
     try {
       pstmt = conn.prepareStatement(checkQuery);
       pstmt.setString(1, data);
       return pstmt.executeQuery();
     } catch (Exception e) {
-      Display
-          .printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      Display.printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET
+          + BLUE + " -> Developer Error" + RESET);
       Display.printMessage("Eror-7");
       // e.printStackTrace();
     }
@@ -83,23 +92,28 @@ public class ModelOperation extends Connectivity implements Content {
   }
 
   public static void delete(String data, String field) {
-    String deleteQuery = "DELETE FROM " + Connectivity.TABLE_NAME + " WHERE " + field + " = ?";
+    String deleteQuery = "DELETE FROM " + Connectivity.TABLE_NAME + " WHERE "
+        + field + " = ?";
     try {
       resultSet = find(data, field);
       if (resultSet != null && resultSet.next() && resultSet.getInt(1) > 0) {
         pstmt = conn.prepareStatement(deleteQuery);
         pstmt.setString(1, data);
-        if (Validation.confirm("to delete record who have " + field + " with " + data)) {
+        if (Validation
+            .confirm("to delete record who have " + field + " with " + data)) {
           if (pstmt.executeUpdate() > 0)
-            Display
-                .printMessage("\t\tThe data (Information) of the student's with Enrollment " + BLUE + "`" + data + "`"
-                    + RESET + " is deleted successfully");
+            Display.printMessage(
+                "\t\tThe data (Information) of the student's with Enrollment "
+                    + BLUE + "`" + data + "`" + RESET
+                    + " is deleted successfully");
         }
       } else
-        Display.printMessage("\t\tThe data (Information) of the student's are not found in over database!!" + RESET);
+        Display.printMessage(
+            "\t\tThe data (Information) of the student's are not found in over database!!"
+                + RESET);
     } catch (SQLException e) {
-      Display
-          .printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      Display.printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET
+          + BLUE + " -> Developer Error" + RESET);
       Display.printMessage("Eror-8");
       // e.printStackTrace();
     }
@@ -118,7 +132,8 @@ public class ModelOperation extends Connectivity implements Content {
   }
 
   public static ArrayList<String> get(String enrollment) {
-    String getQuery = "SELECT * FROM " + Connectivity.TABLE_NAME + " WHERE rollNo = ?";
+    String getQuery = "SELECT * FROM " + Connectivity.TABLE_NAME
+        + " WHERE rollNo = ?";
     ArrayList<String> info = new ArrayList<>();
     try {
       pstmt = conn.prepareStatement(getQuery);
@@ -127,13 +142,12 @@ public class ModelOperation extends Connectivity implements Content {
       if (resultSet.next())
         addInto(info, resultSet);
       else
-        System.out
-            .println(
-                RED + "\t\tData not found: " + RESET + "Student's information with " + CYAN + "`" + enrollment + "`"
-                    + RESET + " is not found in over database.");
+        Display.printMessage(RED + "\t\tData not found: " + RESET
+            + "Student's information with " + CYAN + "`" + enrollment + "`"
+            + RESET + " is not found in over database.");
     } catch (SQLException e) {
-      Display
-          .printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      Display.printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET
+          + BLUE + " -> Developer Error" + RESET);
       Display.printMessage("Eror-10");
       // e.printStackTrace();
     }
@@ -150,8 +164,8 @@ public class ModelOperation extends Connectivity implements Content {
         students.add(new ArrayList<>(student.subList(0, column)));
       }
     } catch (SQLException e) {
-      Display
-          .printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      Display.printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET
+          + BLUE + " -> Developer Error" + RESET);
       Display.printMessage("Eror-11");
       // e.printStackTrace();
     }
@@ -170,8 +184,8 @@ public class ModelOperation extends Connectivity implements Content {
         students.add(student);
       }
     } catch (SQLException e) {
-      Display
-          .printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      Display.printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET
+          + BLUE + " -> Developer Error" + RESET);
       Display.printMessage("Eror-11");
       // e.printStackTrace();
     }
@@ -180,7 +194,8 @@ public class ModelOperation extends Connectivity implements Content {
 
   public static LinkedHashSet<ArrayList<String>> getAll() {
     LinkedHashSet<ArrayList<String>> students = new LinkedHashSet<>();
-    String getAllQuery = "SELECT * FROM " + Connectivity.TABLE_NAME + " ORDER BY rollNo";
+    String getAllQuery = "SELECT * FROM " + Connectivity.TABLE_NAME
+        + " ORDER BY rollNo";
     try {
       resultSet = stmt.executeQuery(getAllQuery);
       while (resultSet.next()) {
@@ -190,8 +205,8 @@ public class ModelOperation extends Connectivity implements Content {
       }
       return students;
     } catch (SQLException e) {
-      Display
-          .printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      Display.printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET
+          + BLUE + " -> Developer Error" + RESET);
       Display.printMessage("Eror-12");
       // e.printStackTrace();
     }
@@ -200,18 +215,21 @@ public class ModelOperation extends Connectivity implements Content {
 
   public static <E> void update(String enrollment, String field, E data) {
     String dataStr = data.toString();
-    String updateQuery = "UPDATE " + Connectivity.TABLE_NAME + " SET " + field + " = ? WHERE rollNo = ?";
+    String updateQuery = "UPDATE " + Connectivity.TABLE_NAME + " SET " + field
+        + " = ? WHERE rollNo = ?";
     try {
       pstmt = conn.prepareStatement(updateQuery);
       pstmt.setString(1, dataStr);
       pstmt.setString(2, enrollment);
       pstmt.executeUpdate();
-      Display.printMessage(GREEN + "\t\tUpdated: " + RESET + "Successfully update data `" + BLUE + data + RESET
-          + "` of the student's with Enrollment `" + BLUE + enrollment + RESET + "`");
+      Display.printMessage(
+          GREEN + "\t\tUpdated: " + RESET + "Successfully update data `" + BLUE
+              + data + RESET + "` of the student's with Enrollment `" + BLUE
+              + enrollment + RESET + "`");
       Display.printInformation(get(enrollment), HEADER);
     } catch (Exception e) {
-      Display
-          .printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      Display.printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET
+          + BLUE + " -> Developer Error" + RESET);
       Display.printMessage("Eror-13");
       // e.printStackTrace();
     }
@@ -233,8 +251,8 @@ public class ModelOperation extends Connectivity implements Content {
       pstmt.executeUpdate();
       return get(marksheet.getRollNo());
     } catch (Exception e) {
-      Display
-          .printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      Display.printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET
+          + BLUE + " -> Developer Error" + RESET);
       Display.printMessage("Eror-14");
       // e.printStackTrace();
     }
@@ -251,8 +269,8 @@ public class ModelOperation extends Connectivity implements Content {
       }
 
     } catch (SQLException e) {
-      Display
-          .printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET + BLUE + " -> Developer Error" + RESET);
+      Display.printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET
+          + BLUE + " -> Developer Error" + RESET);
       Display.printMessage("Eror-15");
       // e.printStackTrace();
     }

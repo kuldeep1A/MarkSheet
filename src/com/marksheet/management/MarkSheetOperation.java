@@ -11,7 +11,11 @@ import com.marksheet.UI.Display;
 import com.marksheet.model.Connectivity;
 import com.marksheet.model.ModelOperation;
 
-public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Content {
+public class MarkSheetOperation
+		implements
+			MarkSheetModelInterface,
+			Colors,
+			Content {
 	private static void inputes(Marksheet marksheet) {
 		marksheet.setEmail(Validation.checkEmail());
 		marksheet.setGender(Validation.checkGender());
@@ -27,7 +31,8 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public boolean add(Marksheet marksheet) {
-		Display.printMessage("\n\t\tAdds the student's marksheet information to the result table");
+		Display.printMessage(
+				"\n\t\tAdds the student's marksheet information to the result table");
 
 		marksheet.setName(Validation.checkName());
 		marksheet.setRollNo(Validation.checkEnrollment());
@@ -51,49 +56,49 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 			Display.printMessage(SPECIFIC_COMMANDS_DETAIL);
 
 			switch (Validation.checkCommand(7)) {
-				case 1:
+				case 1 :
 					String name = Validation.checkName();
 					if (Validation.confirm("to update name")) {
 						ModelOperation.update(enrollment, "name", name);
 					}
 					break;
-				case 2:
+				case 2 :
 					int math = Validation.checkMarks("math");
 					if (Validation.confirm("to update math marks")) {
 						ModelOperation.update(enrollment, "math", math);
 					}
 					break;
-				case 3:
+				case 3 :
 					int chemistry = Validation.checkMarks("Chemistry");
 					if (Validation.confirm("to update chemistry marks")) {
 						ModelOperation.update(enrollment, "chemistry", chemistry);
 					}
 					break;
-				case 4:
+				case 4 :
 					int physics = Validation.checkMarks("Physics");
 					if (Validation.confirm("to update physics marks")) {
 						ModelOperation.update(enrollment, "physics", physics);
 					}
 					break;
-				case 5:
+				case 5 :
 					LocalDate DOB = Validation.checkDOB();
 					if (Validation.confirm("to update DOB")) {
 						ModelOperation.update(enrollment, "DOB", DOB);
 					}
 					break;
-				case 6:
+				case 6 :
 					String email = Validation.checkEmail();
 					if (Validation.confirm("to update email")) {
 						ModelOperation.update(enrollment, "email", email);
 					}
 					break;
-				case 7:
+				case 7 :
 					char gender = Validation.checkGender();
 					if (Validation.confirm("to update gender")) {
 						ModelOperation.update(enrollment, "gender", gender);
 					}
 					break;
-				default:
+				default :
 					break;
 			}
 		}
@@ -200,7 +205,8 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public int numberOfStudent() {
-		return (int) ModelOperation.getNumberInformation("SELECT COUNT(*) FROM " + Connectivity.TABLE_NAME + "");
+		return (int) ModelOperation.getNumberInformation(
+				"SELECT COUNT(*) FROM " + Connectivity.TABLE_NAME + "");
 	}
 
 	/**
@@ -208,7 +214,8 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public LinkedHashSet<ArrayList<String>> getFailedStudentsList() {
-		String query = "SELECT *, (math + chemistry + physics) AS total_marks FROM " + Connectivity.TABLE_NAME
+		String query = "SELECT *, (math + chemistry + physics) AS total_marks FROM "
+				+ Connectivity.TABLE_NAME
 				+ " WHERE math < 33 OR chemistry < 33 OR physics < 33 ORDER BY rollNo";
 
 		// For logically
@@ -264,10 +271,10 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public ArrayList<ArrayList<String>> getTopper() {
-		String query = "SELECT *, (math + chemistry + physics) AS total_marks FROM " + Connectivity.TABLE_NAME
-				+ " WHERE (math + chemistry + physics) = (SELECT MAX(math + chemistry + physics) FROM "
+		String query = "SELECT *, (math + chemistry + physics) AS total_marks FROM "
 				+ Connectivity.TABLE_NAME
-				+ ")";
+				+ " WHERE (math + chemistry + physics) = (SELECT MAX(math + chemistry + physics) FROM "
+				+ Connectivity.TABLE_NAME + ")";
 		return ModelOperation.getSpecific(query);
 	}
 
@@ -276,10 +283,10 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public String[][] getLowestMarkStudents() {
-		String query = "SELECT *, (math + chemistry + physics) AS total_marks FROM " + Connectivity.TABLE_NAME
-				+ " WHERE (math + chemistry + physics) = (SELECT MIN(math + chemistry + physics) FROM "
+		String query = "SELECT *, (math + chemistry + physics) AS total_marks FROM "
 				+ Connectivity.TABLE_NAME
-				+ ")";
+				+ " WHERE (math + chemistry + physics) = (SELECT MIN(math + chemistry + physics) FROM "
+				+ Connectivity.TABLE_NAME + ")";
 		ArrayList<ArrayList<String>> students = ModelOperation.getSpecific(query);
 		String[][] result = new String[students.size()][];
 
@@ -295,7 +302,8 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public String[][] getPassedStdents() {
-		String query = "SELECT *, (math + chemistry + physics) AS total_marks FROM " + Connectivity.TABLE_NAME
+		String query = "SELECT *, (math + chemistry + physics) AS total_marks FROM "
+				+ Connectivity.TABLE_NAME
 				+ " WHERE math >= 33 AND chemistry >= 33 AND physics >= 33 ORDER BY rollNo";
 		ArrayList<ArrayList<String>> students = ModelOperation.getSpecific(query);
 		String[][] result = new String[students.size()][];
@@ -311,8 +319,8 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public double getAverageResultOfClass() {
-		String query = "SELECT AVG((math + chemistry + physics) / 3.0) AS average_marks FROM " + Connectivity.TABLE_NAME
-				+ ";";
+		String query = "SELECT AVG((math + chemistry + physics) / 3.0) AS average_marks FROM "
+				+ Connectivity.TABLE_NAME + ";";
 		return ModelOperation.getNumberInformation(query);
 	}
 
@@ -338,9 +346,9 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public int getNumberOfBoysPass() {
-		return (int) ModelOperation.getNumberInformation(
-				"SELECT COUNT(*) FROM " + Connectivity.TABLE_NAME
-						+ " WHERE gender = 'M' AND math >= 33 AND chemistry >= 33 AND physics >= 33");
+		return (int) ModelOperation.getNumberInformation("SELECT COUNT(*) FROM "
+				+ Connectivity.TABLE_NAME
+				+ " WHERE gender = 'M' AND math >= 33 AND chemistry >= 33 AND physics >= 33");
 	}
 
 	/**
@@ -348,9 +356,9 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public int getNumberOfGirlsPass() {
-		return (int) ModelOperation.getNumberInformation(
-				"SELECT COUNT(*) FROM " + Connectivity.TABLE_NAME
-						+ " WHERE gender = 'F' AND math >= 33 AND chemistry >= 33 AND physics >= 33");
+		return (int) ModelOperation.getNumberInformation("SELECT COUNT(*) FROM "
+				+ Connectivity.TABLE_NAME
+				+ " WHERE gender = 'F' AND math >= 33 AND chemistry >= 33 AND physics >= 33");
 	}
 
 	/**
@@ -361,8 +369,9 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 		ArrayList<String> student = get(enrollment);
 
 		if (!student.isEmpty()) {
-			double averageMarks = (Integer.parseInt(student.get(2)) + Integer.parseInt(student.get(3))
-					+ Integer.parseInt(student.get(4))) / 3.0;
+			double averageMarks = (Integer.parseInt(student.get(2))
+					+ Integer.parseInt(student.get(3)) + Integer.parseInt(student.get(4)))
+					/ 3.0;
 			if (averageMarks >= 90)
 				return 'A';
 			else if (averageMarks >= 80)
@@ -382,8 +391,8 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public int getTotalNumberOfGirls() {
-		return (int) ModelOperation
-				.getNumberInformation("SELECT COUNT(*) FROM " + Connectivity.TABLE_NAME + " WHERE gender='F'");
+		return (int) ModelOperation.getNumberInformation("SELECT COUNT(*) FROM "
+				+ Connectivity.TABLE_NAME + " WHERE gender='F'");
 	}
 
 	/**
@@ -391,8 +400,8 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public int getTotalNumberOfBoys() {
-		return (int) ModelOperation
-				.getNumberInformation("SELECT COUNT(*) FROM " + Connectivity.TABLE_NAME + " WHERE gender='M'");
+		return (int) ModelOperation.getNumberInformation("SELECT COUNT(*) FROM "
+				+ Connectivity.TABLE_NAME + " WHERE gender='M'");
 	}
 
 	/**
@@ -400,8 +409,8 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public double getAverageResultOfGirls() {
-		String query = "SELECT AVG((math + chemistry + physics) / 3.0 ) AS average_marks FROM " + Connectivity.TABLE_NAME
-				+ " WHERE gender = 'F';";
+		String query = "SELECT AVG((math + chemistry + physics) / 3.0 ) AS average_marks FROM "
+				+ Connectivity.TABLE_NAME + " WHERE gender = 'F';";
 		return ModelOperation.getNumberInformation(query);
 	}
 
@@ -410,8 +419,8 @@ public class MarkSheetOperation implements MarkSheetModelInterface, Colors, Cont
 	 */
 	@Override
 	public double getAverageResultOfBoys() {
-		String query = "SELECT AVG((math + chemistry + physics) / 3.0 ) AS average_marks FROM " + Connectivity.TABLE_NAME
-				+ " WHERE gender = 'M';";
+		String query = "SELECT AVG((math + chemistry + physics) / 3.0 ) AS average_marks FROM "
+				+ Connectivity.TABLE_NAME + " WHERE gender = 'M';";
 		return ModelOperation.getNumberInformation(query);
 	}
 

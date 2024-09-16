@@ -2,3 +2,9 @@
 /src/com/marksheet/resources/
 mysql.properties
 Complete.txt
+.settings
+.vscode
+.kuldeep
+/server/
+/build/
+/dev/
