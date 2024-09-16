@@ -32,7 +32,7 @@ public class ModelOperation extends Connectivity implements Content {
   }
 
   public static void insert(Marksheet marksheet) {
-    String insertSQL = "INSERT INTO " + Connectivity.table
+    String insertSQL = "INSERT INTO " + Connectivity.TABLE_NAME
         + " (rollNo, name, math, chemistry, physics, DOB, email, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     try {
       pstmt = Connectivity.conn.prepareStatement(insertSQL);
@@ -51,10 +51,10 @@ public class ModelOperation extends Connectivity implements Content {
               + RESET + " is successfully added to the result.");
     } catch (SQLIntegrityConstraintViolationException e) {
       String errorMessage = e.getMessage();
-      if (errorMessage.contains("for key '" + Connectivity.table + ".PRIMARY'")) {
+      if (errorMessage.contains("for key '" + Connectivity.TABLE_NAME + ".PRIMARY'")) {
         Display.printMessage("\t\t" + "Student is already exists with Enrollment " + BLUE + "`"
             + marksheet.getRollNo() + "`" + RESET + ", Please enter other Enrollment. and try again.");
-      } else if (errorMessage.contains("for key '" + Connectivity.table + ".email'")) {
+      } else if (errorMessage.contains("for key '" + Connectivity.TABLE_NAME + ".email'")) {
         Display.printMessage("\t\t" + "Student is already exists with Email " + BLUE + "`"
             + marksheet.getEmail() + "`" + RESET + ", Please enter other Email. and try again.");
       } else {
@@ -68,7 +68,7 @@ public class ModelOperation extends Connectivity implements Content {
   }
 
   public static ResultSet find(String data, String field) {
-    String checkQuery = "SELECT COUNT(*) FROM " + Connectivity.table + " WHERE " + field + " = ?";
+    String checkQuery = "SELECT COUNT(*) FROM " + Connectivity.TABLE_NAME + " WHERE " + field + " = ?";
     try {
       pstmt = conn.prepareStatement(checkQuery);
       pstmt.setString(1, data);
@@ -83,7 +83,7 @@ public class ModelOperation extends Connectivity implements Content {
   }
 
   public static void delete(String data, String field) {
-    String deleteQuery = "DELETE FROM " + Connectivity.table + " WHERE " + field + " = ?";
+    String deleteQuery = "DELETE FROM " + Connectivity.TABLE_NAME + " WHERE " + field + " = ?";
     try {
       resultSet = find(data, field);
       if (resultSet != null && resultSet.next() && resultSet.getInt(1) > 0) {
@@ -107,7 +107,7 @@ public class ModelOperation extends Connectivity implements Content {
 
   public static void deleteTableData() {
     // String deleteQuery = "DROP TABLE IF EXISTS " + Connectivity.table +"";
-    String deleteQuery = "DELETE FROM " + Connectivity.table + "";
+    String deleteQuery = "DELETE FROM " + Connectivity.TABLE_NAME + "";
     try {
       stmt.executeUpdate(deleteQuery);
     } catch (SQLException e) {
@@ -118,7 +118,7 @@ public class ModelOperation extends Connectivity implements Content {
   }
 
   public static ArrayList<String> get(String enrollment) {
-    String getQuery = "SELECT * FROM " + Connectivity.table + " WHERE rollNo = ?";
+    String getQuery = "SELECT * FROM " + Connectivity.TABLE_NAME + " WHERE rollNo = ?";
     ArrayList<String> info = new ArrayList<>();
     try {
       pstmt = conn.prepareStatement(getQuery);
@@ -180,7 +180,7 @@ public class ModelOperation extends Connectivity implements Content {
 
   public static LinkedHashSet<ArrayList<String>> getAll() {
     LinkedHashSet<ArrayList<String>> students = new LinkedHashSet<>();
-    String getAllQuery = "SELECT * FROM " + Connectivity.table + " ORDER BY rollNo";
+    String getAllQuery = "SELECT * FROM " + Connectivity.TABLE_NAME + " ORDER BY rollNo";
     try {
       resultSet = stmt.executeQuery(getAllQuery);
       while (resultSet.next()) {
@@ -200,7 +200,7 @@ public class ModelOperation extends Connectivity implements Content {
 
   public static <E> void update(String enrollment, String field, E data) {
     String dataStr = data.toString();
-    String updateQuery = "UPDATE " + Connectivity.table + " SET " + field + " = ? WHERE rollNo = ?";
+    String updateQuery = "UPDATE " + Connectivity.TABLE_NAME + " SET " + field + " = ? WHERE rollNo = ?";
     try {
       pstmt = conn.prepareStatement(updateQuery);
       pstmt.setString(1, dataStr);
@@ -218,7 +218,7 @@ public class ModelOperation extends Connectivity implements Content {
   }
 
   public static ArrayList<String> update(Marksheet marksheet) {
-    String updateQuery = "UPDATE " + Connectivity.table
+    String updateQuery = "UPDATE " + Connectivity.TABLE_NAME
         + " SET name = ?, email = ?, DOB = ?, gender = ?, math = ?, chemistry = ?, physics = ? WHERE rollNo = ?";
     try {
       pstmt = conn.prepareStatement(updateQuery);

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.marksheet.UI.Colors;
+import com.marksheet.UI.Content;
 import com.marksheet.UI.Display;
 import com.marksheet.management.MarkSheetOperation;
 import com.marksheet.management.Marksheet;
@@ -24,14 +25,14 @@ import com.mysql.cj.jdbc.exceptions.CommunicationsException;
  * @author kuldeeep1a
  * @apiNote Connection between database and application
  */
-public class Connectivity implements Colors {
+public class Connectivity implements Colors, Content {
 	private static MarkSheetOperation operation = new MarkSheetOperation();
 	private static ResourceBundle rb = ResourceBundle.getBundle("com.marksheet.resources.mysql");
 	public static Connection conn = null;
 	public static Statement stmt = null;
 	public static PreparedStatement pstmt = null;
 	public static ResultSet resultSet = null;
-	public static String table = null;
+	public static String TABLE_NAME = null;
 
 	public static boolean connect() {
 		ArrayList<String> tableNames = new ArrayList<>();
@@ -44,7 +45,7 @@ public class Connectivity implements Colors {
 			String catalog = conn.getCatalog();
 			ResultSet rsTable = dmd.getTables(catalog, null, "%", new String[] { "TABLE" });
 
-			Display.loading("Loading tables ");
+			// Display.loading("Loading tables ");
 			Display.printMessage("\n\n\t\tTables in the database:");
 
 			while (rsTable.next()) {
@@ -53,20 +54,21 @@ public class Connectivity implements Colors {
 				Display.printMessage("\t\t" + i++ + ". " + "Table : " + tableName);
 			}
 			Display.printMessage("\t\t" + i++ + ". " + "Create new Table");
-
+			int _tab = tableNames.size() > 9 ? 26 : 27;
+			Display.printInformation(CYAN2 + COMMANDS_RULES + RESET, tableNames.size() + 1, COMMANDS_RULES.length() + _tab);
 			int commad = Validation.checkCommand(tableNames.size() + 1);
 
 			if (commad == tableNames.size() + 1) {
-				table = Validation.checkTable(tableNames);
+				TABLE_NAME = Validation.checkTable(tableNames);
 			} else
-				table = tableNames.get(commad - 1);
+				TABLE_NAME = tableNames.get(commad - 1);
 
 			stmt = conn.createStatement();
 			stmt.executeUpdate(
-					"CREATE TABLE IF NOT EXISTS " + table
-							+ " ( rollNo VARCHAR(13) NOT NULL, name VARCHAR(255) NOT NULL, math INT NOT NULL, chemistry INT NOT NULL, physics INT NOT NULL, DOB DATE NOT NULL, email VARCHAR(255) NOT NULL, gender CHAR(1) NOT NULL, PRIMARY KEY (rollNo), UNIQUE (email) );");
+					"CREATE TABLE IF NOT EXISTS `" + TABLE_NAME
+							+ "` ( rollNo VARCHAR(13) NOT NULL, name VARCHAR(255) NOT NULL, math INT NOT NULL, chemistry INT NOT NULL, physics INT NOT NULL, DOB DATE NOT NULL, email VARCHAR(255) NOT NULL, gender CHAR(1) NOT NULL, PRIMARY KEY (rollNo), UNIQUE (email) );");
 
-			String selectQuery = "SELECT * FROM " + table;
+			String selectQuery = "SELECT * FROM " + TABLE_NAME;
 			ResultSet resultSet = stmt.executeQuery(selectQuery);
 
 			while (!resultSet.next()) {

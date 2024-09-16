@@ -160,7 +160,7 @@ public class Validation implements Colors {
 						System.exit(0);
 					}
 				} else
-					Display.printMessage(RED + "\t\tError: Follow the confirm `y` or `n` rules strictly!" + RESET);
+					Display.printMessage(RED + "\t\tError: Follow the commands rules strictly!" + RESET);
 			}
 		}
 	}

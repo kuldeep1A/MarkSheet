@@ -16,7 +16,8 @@ import com.marksheet.model.Connectivity;
 /**
  * Management all the Marksheet of all student's
  * 
- * @apiNote - Reliable, Easy
+ * @apiNote Reliable
+ * @apiNote Easy
  */
 public class Management implements Colors, Content {
   private Scanner sc = new Scanner(System.in);
@@ -28,9 +29,7 @@ public class Management implements Colors, Content {
   private void operationByCommand() {
     MarkSheetOperation marksheetOperation = new MarkSheetOperation();
     while (true) {
-      Display.printMessage(YELLOW2 + COMMANDS_DETAILS + RESET);
-      Display.printInformation(CYAN2 + COMMANDS_RULES + RESET, COMMANDS_RULES.length() + 26);
-      Display._printMessage("\n\t\tCommand -> ");
+      Display.printRules(8);
       try {
         String command = sc.nextLine().toLowerCase().trim();
         switch (command) {
@@ -187,7 +186,7 @@ public class Management implements Colors, Content {
   }
 
   public void start() {
-    Display.printInformation(CYAN2 + WELCOME + RESET, WELCOME.length() + 26);
+    Display.printInformation(CYAN2 + WELCOME + RESET, 0, WELCOME.length() + 26);
     try {
       connect();
       operationByCommand();
@@ -200,7 +199,7 @@ public class Management implements Colors, Content {
         Connectivity.pstmt.close();
         Connectivity.resultSet.close();
       } catch (NullPointerException e) {
-        Display.printMessage(RED + "\n\t\tNull Pointer Exception:" + RESET);
+        // Display.printMessage(RED + "\n\t\tNull Pointer Exception:" + RESET);
         Display.printMessage("Eror-5.1");
         // e.printStackTrace();
         System.exit(0);

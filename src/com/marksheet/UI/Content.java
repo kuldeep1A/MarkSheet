@@ -31,7 +31,7 @@ public interface Content {
 
 	int[] COLUMN_WIDTHS_TOTAL_MARKS = { 15, 30, 6, 10, 8, 12, 40, 6, 12 };
 
-	String COMMANDS_RULES = "Command between 1 to 25 and `\\-1` or `\\exit` to terminate the Marksheet Management";
+	String COMMANDS_RULES = "Command between 1 to %d and `\\-1` or `\\exit` to terminate the Marksheet Management";
 
 	String WELCOME = "----------------------------------- MarkSheet Management -----------------------------------";
 
@@ -74,4 +74,5 @@ public interface Content {
 			       \t\t6.\tChange the Email
 			       \t\t7.\tChange the Gender
 			       """;
+	String TABLE_NAME_USE = "-".repeat(24) + " MarkSheet Management now working on table ";
 }

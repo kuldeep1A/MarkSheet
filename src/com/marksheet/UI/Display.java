@@ -5,6 +5,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.marksheet.model.Connectivity;
+
 /**
  * Display message or Document to the console
  */
@@ -13,6 +15,12 @@ public class Display extends Thread implements Content, Colors {
   public static void printFormattedLine(String text, int boxWidth) {
     int padding = boxWidth - text.length() - 9;
     System.out.printf("\t\t|\t%s%" + padding + "s|\n", text, "");
+  }
+
+  public static void printFormattedLine(String text, int range, int boxWidth) {
+    String message = String.format(text, range);
+    int padding = boxWidth - text.length() - 9;
+    System.out.printf("\t\t|\t%s%" + padding + "s|\n", message, "");
   }
 
   public static void printBorder(String message) {
@@ -55,9 +63,12 @@ public class Display extends Thread implements Content, Colors {
     printBorder(columnWidths);
   }
 
-  public static void printInformation(String message, int boxWidth) {
+  public static void printInformation(String message, int range, int boxWidth) {
     printBorder(message);
-    printFormattedLine(message, boxWidth);
+    if (range == 0)
+      printFormattedLine(message, boxWidth);
+    else
+      printFormattedLine(message, range, boxWidth);
     printBorder(message);
   }
 
@@ -203,8 +214,15 @@ public class Display extends Thread implements Content, Colors {
               \t\t\t9. Avoid Abbreviations (Unless Well-Known)
               \t\t\t10. Do not use a previously created name
               """ + RESET);
-        break;
 
+        break;
+      case 8:
+        String m1 = CYAN2 + TABLE_NAME_USE + RESET + Connectivity.TABLE_NAME + CYAN2 + " " + "-".repeat(24) + RESET;
+        printInformation(m1, 0, m1.length() + 26);
+        printMessage(YELLOW2 + COMMANDS_DETAILS + RESET);
+        printInformation(CYAN2 + COMMANDS_RULES + RESET, 26, COMMANDS_RULES.length() + 26);
+        _printMessage("\n\t\tCommand -> ");
+        break;
       default:
         break;
     }
@@ -215,9 +233,9 @@ public class Display extends Thread implements Content, Colors {
     String _waterMark = WHITE + "Thanks for use Marksheet Management Application.";
     String _signature = "Created By: " + BLUE2 + "https://kuldeep1a.web.app/      " + RESET;
     String _signature2 = "Created By: " + BLUE2 + "https://kuldeep-dhangar.web.app/      " + RESET;
-    Display.printInformation(_waterMark, _waterMark.length() + 13);
-    Display.printInformation(_signature, _waterMark.length() + 17);
-    Display.printInformation(_signature2, _signature2.length() + 17);
+    Display.printInformation(_waterMark, 0, _waterMark.length() + 13);
+    Display.printInformation(_signature, 0, _waterMark.length() + 17);
+    Display.printInformation(_signature2, 0, _signature2.length() + 17);
   }
 
   public static void loading(String message) {
