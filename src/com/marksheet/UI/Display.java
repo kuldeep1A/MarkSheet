@@ -238,11 +238,11 @@ public class Display extends Thread implements Content, Colors {
     Display.printInformation(_signature2, 0, _signature2.length() + 17);
   }
 
-  public static void loading(String message) {
+  public static void loading(String message, int range) {
     Display._printMessage(HIDE_CURSOR);
     Display._printMessage("\t\t" + message);
 
-    for (int i = 0; i < Math.ceil(Math.random() * (25 - 8) + 12); i++) {
+    for (int i = 0; i < Math.ceil(Math.random() * (range - 8) + 8); i++) {
       Display._printMessage(".");
       System.out.flush();
       try {

@@ -182,4 +182,9 @@ public class Validation implements Colors {
 				Display.printMessage(RED + "\t\tError: Follow the tables rules strictly!" + RESET);
 		}
 	}
+
+	public static String checkRoot() {
+		Display._printMessage("\n\t\tUsername: ");
+		return sc.nextLine();
+	}
 }

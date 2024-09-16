@@ -27,8 +27,8 @@ import com.mysql.cj.jdbc.exceptions.CommunicationsException;
  */
 public class Connectivity implements Colors, Content {
 	private static MarkSheetOperation operation = new MarkSheetOperation();
-	private static ResourceBundle rb = ResourceBundle.getBundle("com.marksheet.resources.mysql");
 	public static Connection conn = null;
+	private static ResourceBundle rb = ResourceBundle.getBundle("com.marksheet.resources.mysql");
 	public static Statement stmt = null;
 	public static PreparedStatement pstmt = null;
 	public static ResultSet resultSet = null;
@@ -39,13 +39,19 @@ public class Connectivity implements Colors, Content {
 		int i = 1;
 		try {
 			Class.forName(rb.getString("DRIVER"));
-			conn = DriverManager.getConnection(rb.getString("URL"), rb.getString("USER"), rb.getString("PASSWORD"));
-			DatabaseMetaData dmd = conn.getMetaData();
+			stmt = conn.createStatement();
+			stmt.execute("CREATE DATABASE IF NOT EXISTS marksheet");
+			String url = String.format(rb.getString("URL"), "marksheet");
 
+			conn = DriverManager.getConnection(url, Validation.checkRoot(), rb.getString("PASSWORD"));
+
+			DatabaseMetaData dmd = conn.getMetaData();
 			String catalog = conn.getCatalog();
+			System.out.println("catalog: " + catalog);
+
 			ResultSet rsTable = dmd.getTables(catalog, null, "%", new String[] { "TABLE" });
 
-			// Display.loading("Loading tables ");
+			Display.loading("Loading tables ", 25);
 			Display.printMessage("\n\n\t\tTables in the database:");
 
 			while (rsTable.next()) {
@@ -63,7 +69,6 @@ public class Connectivity implements Colors, Content {
 			} else
 				TABLE_NAME = tableNames.get(commad - 1);
 
-			stmt = conn.createStatement();
 			stmt.executeUpdate(
 					"CREATE TABLE IF NOT EXISTS `" + TABLE_NAME
 							+ "` ( rollNo VARCHAR(13) NOT NULL, name VARCHAR(255) NOT NULL, math INT NOT NULL, chemistry INT NOT NULL, physics INT NOT NULL, DOB DATE NOT NULL, email VARCHAR(255) NOT NULL, gender CHAR(1) NOT NULL, PRIMARY KEY (rollNo), UNIQUE (email) );");

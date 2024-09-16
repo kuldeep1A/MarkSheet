@@ -199,7 +199,7 @@ public class Management implements Colors, Content {
         Connectivity.pstmt.close();
         Connectivity.resultSet.close();
       } catch (NullPointerException e) {
-        // Display.printMessage(RED + "\n\t\tNull Pointer Exception:" + RESET);
+        Display.printMessage(RED + "\n\t\tNull Pointer Exception:" + RESET);
         Display.printMessage("Eror-5.1");
         // e.printStackTrace();
         System.exit(0);
