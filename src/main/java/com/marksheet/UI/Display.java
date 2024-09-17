@@ -1,11 +1,11 @@
-package com.marksheet.UI;
+package main.java.com.marksheet.UI;
+
+import main.java.com.marksheet.model.Connectivity;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import com.marksheet.model.Connectivity;
 
 /**
  * Display message or Document to the console
@@ -115,7 +115,7 @@ public class Display extends Thread implements Content, Colors {
   }
 
   public static void printInformation(Set<ArrayList<String>> informations) {
-    int[] columnWidths = {15, 30, 6, 10, 8, 12, 40, 6};
+    int[] columnWidths = { 15, 30, 6, 10, 8, 12, 40, 6 };
     printHeader(columnWidths, HEADER);
     for (ArrayList<String> rowData : informations) {
       printRow(rowData, columnWidths);
@@ -150,7 +150,7 @@ public class Display extends Thread implements Content, Colors {
 
   public static void printRules(int c) {
     switch (c) {
-      case 1 :
+      case 1:
         System.out.println(GREEN
             + """
                 \n\n\t\tRules:
@@ -163,7 +163,7 @@ public class Display extends Thread implements Content, Colors {
                 					"""
             + RESET);
         break;
-      case 2 :
+      case 2:
         System.out.println(GREEN
             + """
                 \n\n\t\tRules:
@@ -175,7 +175,7 @@ public class Display extends Thread implements Content, Colors {
                 	"""
             + RESET);
         break;
-      case 3 :
+      case 3:
         System.out.println(GREEN
             + """
                 \n\t\tRules:
@@ -186,12 +186,12 @@ public class Display extends Thread implements Content, Colors {
                 """
             + RESET);
         break;
-      case 4 :
+      case 4:
         System.out.println(GREEN + """
             \n\t\tRules: `M` for Male or `F` for Female
                   """ + RESET);
         break;
-      case 5 :
+      case 5:
         System.out.println(GREEN + """
             \n\t\tRules:
             	\t\t1. Date formate: `DD/MM/YYYY`, ex: `02/02/2003`
@@ -199,7 +199,7 @@ public class Display extends Thread implements Content, Colors {
             	\t\t3. Birth year valid only for between 1999 to 2005
                   	""" + RESET);
         break;
-      case 6 :
+      case 6:
         Display._printMessage("\n\n\t\tMarks:");
         System.out.println(GREEN + """
             \n\t\tRules:
@@ -207,7 +207,7 @@ public class Display extends Thread implements Content, Colors {
               \t\t2. -1 for absent
               """ + RESET);
         break;
-      case 7 :
+      case 7:
         System.out.println(GREEN + """
             \n\t\tRules:
               \t\t\t1. Use Lowercase Letters
@@ -223,7 +223,7 @@ public class Display extends Thread implements Content, Colors {
               """ + RESET);
 
         break;
-      case 8 :
+      case 8:
         String m1 = CYAN2 + TABLE_NAME_USE + RESET + Connectivity.TABLE_NAME
             + CYAN2 + " " + "-".repeat(24) + RESET;
         printInformation(m1, 0, m1.length() + 26);
@@ -232,7 +232,7 @@ public class Display extends Thread implements Content, Colors {
             COMMANDS_RULES.length() + 26);
         _printMessage("\n\t\tCommand -> ");
         break;
-      default :
+      default:
         break;
     }
   }

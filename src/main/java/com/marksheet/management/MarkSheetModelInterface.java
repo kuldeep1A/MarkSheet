@@ -1,4 +1,4 @@
-package com.marksheet.management;
+package main.java.com.marksheet.management;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -9,7 +9,8 @@ public interface MarkSheetModelInterface {
 	 * Adds the student's marksheet information to the result table
 	 * 
 	 * @param marksheet
-	 *          - The marksheet object contains the student's details and marks.
+	 *                  - The marksheet object contains the student's details and
+	 *                  marks.
 	 * @return true if the marksheet was added successfully, false otherwise.
 	 */
 	public boolean add(Marksheet marksheet);
@@ -18,7 +19,7 @@ public interface MarkSheetModelInterface {
 	 * Delete the specific data (information) of the student's by Enrollment
 	 * 
 	 * @param rollNo
-	 *          Enrollment of the student's
+	 *               Enrollment of the student's
 	 * @return true if the specific student's data is deleted successfully by
 	 *         Enrollment, false otherwise
 	 */
@@ -28,7 +29,7 @@ public interface MarkSheetModelInterface {
 	 * Delete the specific data (information) of the student's by Email
 	 * 
 	 * @param emailId
-	 *          - Email Id of the student's
+	 *                - Email Id of the student's
 	 * @return true if the specific student's data is deleted successfully by
 	 *         Email Id, false otherwise
 	 */
@@ -39,7 +40,7 @@ public interface MarkSheetModelInterface {
 	 * table
 	 * 
 	 * @param data
-	 *          - The data is specific details of student's
+	 *             - The data is specific details of student's
 	 * @return true if the marksheet was update successfully, false otherwise.
 	 */
 	public boolean update(String data);
@@ -48,7 +49,7 @@ public interface MarkSheetModelInterface {
 	 * Update all details of the student's of marksheet in the result table
 	 * 
 	 * @param marksheet
-	 *          object of markseet
+	 *                  object of markseet
 	 * @return true if the marksheet was added successfully, false otherwise.
 	 */
 	public boolean updateAll(Marksheet marksheet);
@@ -65,7 +66,7 @@ public interface MarkSheetModelInterface {
 	 * 
 	 * 
 	 * @param data
-	 *          Enrollment of the student's
+	 *             Enrollment of the student's
 	 * @return {@code ArrayList} that contains the details of the student's
 	 */
 	public ArrayList<String> get(String data);
@@ -165,7 +166,7 @@ public interface MarkSheetModelInterface {
 	 * Get the Grade marks of the student's
 	 * 
 	 * @param enrollment
-	 *          - Enrollment of the student's
+	 *                   - Enrollment of the student's
 	 * @return {@code char} Grade marks
 	 */
 	public char getGradeOfStudent(String rollNo);

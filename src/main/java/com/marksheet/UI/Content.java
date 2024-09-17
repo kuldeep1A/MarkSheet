@@ -1,4 +1,4 @@
-package com.marksheet.UI;
+package main.java.com.marksheet.UI;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,13 +23,13 @@ public interface Content {
 			Arrays.asList("Enrollment", "Name", "Math", "Chemistry", "Physics", "DOB",
 					"Email", "Gender", "Total Marks"));
 
-	int[] COLUMN_WIDTHS = {15, 30, 6, 10, 8, 12, 40, 6};
+	int[] COLUMN_WIDTHS = { 15, 30, 6, 10, 8, 12, 40, 6 };
 
-	int[] COLUMN_WIDTHS_NAME = {30};
+	int[] COLUMN_WIDTHS_NAME = { 30 };
 
-	int[] COLUMN_WIDTHS_MARKS = {15, 30, 6, 10, 8};
+	int[] COLUMN_WIDTHS_MARKS = { 15, 30, 6, 10, 8 };
 
-	int[] COLUMN_WIDTHS_TOTAL_MARKS = {15, 30, 6, 10, 8, 12, 40, 6, 12};
+	int[] COLUMN_WIDTHS_TOTAL_MARKS = { 15, 30, 6, 10, 8, 12, 40, 6, 12 };
 
 	String COMMANDS_RULES = "Command between 1 to %d and `\\-1` or `\\exit` to terminate the Marksheet Management";
 

@@ -1,4 +1,4 @@
-package com.marksheet.UI;
+package main.java.com.marksheet.UI;
 
 /**
  * Different type of color use for manipulation of text color

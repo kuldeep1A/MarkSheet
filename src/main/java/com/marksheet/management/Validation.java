@@ -1,4 +1,4 @@
-package com.marksheet.management;
+package main.java.com.marksheet.management;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -6,9 +6,10 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.io.Console;
 
-import com.marksheet.UI.Colors;
-import com.marksheet.UI.Display;
+import main.java.com.marksheet.UI.Colors;
+import main.java.com.marksheet.UI.Display;
 
 public class Validation implements Colors {
 	public static Scanner sc = new Scanner(System.in);
@@ -209,6 +210,7 @@ public class Validation implements Colors {
 
 	public static String checkRoot() {
 		Display._printMessage("\n\t\tUsername: ");
+
 		return sc.nextLine();
 	}
 

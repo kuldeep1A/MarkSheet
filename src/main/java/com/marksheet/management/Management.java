@@ -1,4 +1,9 @@
-package com.marksheet.management;
+package main.java.com.marksheet.management;
+
+import main.java.com.marksheet.UI.Colors;
+import main.java.com.marksheet.UI.Content;
+import main.java.com.marksheet.UI.Display;
+import main.java.com.marksheet.model.Connectivity;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,11 +12,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
-
-import com.marksheet.UI.Colors;
-import com.marksheet.UI.Content;
-import com.marksheet.UI.Display;
-import com.marksheet.model.Connectivity;
 
 /**
  * Management all the Marksheet of all student's
@@ -33,32 +33,32 @@ public class Management implements Colors, Content {
       try {
         String command = sc.nextLine().toLowerCase().trim();
         switch (command) {
-          case "1" :
+          case "1":
             marksheetOperation.add(new Marksheet());
             break;
-          case "2" :
+          case "2":
             marksheetOperation.update(Validation.checkEnrollment());
             break;
-          case "3" :
+          case "3":
             marksheetOperation.updateAll(new Marksheet());
             break;
-          case "4" :
+          case "4":
             marksheetOperation.deleteByRollNo(Validation.checkEnrollment());
             break;
-          case "5" :
+          case "5":
             marksheetOperation.deleteByEmailId(Validation.checkEmail());
             break;
-          case "6" :
+          case "6":
             marksheetOperation.deleteAll();
             start();
             break;
-          case "7" :
+          case "7":
             ArrayList<String> studentInfo = marksheetOperation
                 .get(Validation.checkEnrollment());
             if (!studentInfo.isEmpty())
               Display.printInformation(studentInfo, HEADER);
             break;
-          case "8" :
+          case "8":
             Set<ArrayList<String>> studentsInfo = marksheetOperation.getAll();
             if (!studentsInfo.isEmpty()) {
               Display.printMessage("\t\tTotal Students are : ",
@@ -66,7 +66,7 @@ public class Management implements Colors, Content {
               Display.printInformation(studentsInfo);
             }
             break;
-          case "9" :
+          case "9":
             LinkedHashSet<ArrayList<String>> meritStudents = marksheetOperation
                 .getMeritList();
             if (!meritStudents.isEmpty()) {
@@ -75,11 +75,11 @@ public class Management implements Colors, Content {
               Display.printInformation(meritStudents, COLUMN_WIDTHS, HEADER);
             }
             break;
-          case "10" :
+          case "10":
             Display.printMessage("\t\tThe total number of student are: ",
                 marksheetOperation.numberOfStudent());
             break;
-          case "11" :
+          case "11":
             LinkedHashSet<ArrayList<String>> failedStudent = marksheetOperation
                 .getFailedStudentsList();
             if (!failedStudent.isEmpty()) {
@@ -89,7 +89,7 @@ public class Management implements Colors, Content {
             } else
               Display.printMessage(BLUE + "\t\tAll student are hoshiyar :)");
             break;
-          case "12" :
+          case "12":
             ArrayList<ArrayList<String>> absentStudents = marksheetOperation
                 .getAbsenties();
             if (!absentStudents.isEmpty()) {
@@ -99,7 +99,7 @@ public class Management implements Colors, Content {
                   HEADER_MARKS);
             }
             break;
-          case "13" :
+          case "13":
             ArrayList<ArrayList<String>> topperStudents = marksheetOperation
                 .getTopper();
             if (!topperStudents.isEmpty()) {
@@ -109,7 +109,7 @@ public class Management implements Colors, Content {
                   COLUMN_WIDTHS_TOTAL_MARKS, HEADER_TOTAL_MARKS);
             }
             break;
-          case "14" :
+          case "14":
             String[][] lowestStudents = marksheetOperation
                 .getLowestMarkStudents();
             if (lowestStudents != null) {
@@ -121,7 +121,7 @@ public class Management implements Colors, Content {
             } else
               Display.printMessage(BLUE + "\t\tAll student are hoshiyar :)");
             break;
-          case "15" :
+          case "15":
             String[][] passedStudents = marksheetOperation.getPassedStdents();
             if (passedStudents != null) {
               Display.printMessage(
@@ -131,11 +131,11 @@ public class Management implements Colors, Content {
             } else
               Display.printMessage(BLUE + "\t\tAll student are hoshiyar :)");
             break;
-          case "16" :
+          case "16":
             Display.printMessage("\t\tThe average result of Class are : ",
                 marksheetOperation.getAverageResultOfClass());
             break;
-          case "17" :
+          case "17":
             List<ArrayList<String>> atktStudents = marksheetOperation
                 .getATKTStudents();
             if (!atktStudents.isEmpty()) {
@@ -146,57 +146,57 @@ public class Management implements Colors, Content {
             } else
               Display.printMessage(BLUE + "\t\tAll student are hoshiyar :)");
             break;
-          case "18" :
+          case "18":
             break;
-          case "19" :
+          case "19":
             Display.printMessage(
                 "\t\tThe total number of Boys students who Passed : ",
                 marksheetOperation.getNumberOfBoysPass());
             break;
-          case "20" :
+          case "20":
             Display.printMessage(
                 "\t\tThe total number of Girls students who Passed : ",
                 marksheetOperation.getNumberOfGirlsPass());
             break;
-          case "21" :
+          case "21":
             char Grade = marksheetOperation
                 .getGradeOfStudent(Validation.checkEnrollment());
             if (Grade != ' ')
               Display.printMessage("\t\tGrade -> " + Grade);
             break;
-          case "22" :
+          case "22":
             Display.printMessage("\t\tThe total number of Girls students are: ",
                 marksheetOperation.getTotalNumberOfGirls());
             break;
-          case "23" :
+          case "23":
             Display.printMessage("\t\tThe total number of Boys students are: ",
                 marksheetOperation.getTotalNumberOfBoys());
             break;
-          case "24" :
+          case "24":
             Display.printMessage("\t\tThe average result of all Girls are: ",
                 marksheetOperation.getAverageResultOfGirls());
             break;
-          case "25" :
+          case "25":
             Display.printMessage("\t\tThe average result of all Boys are: ",
                 marksheetOperation.getAverageResultOfBoys());
             break;
-          case "26" :
+          case "26":
             Display.printMessage("\n\n");
             connect();
             break;
-          case "\\-1" :
+          case "\\-1":
             if (Validation.confirm("to terminat MarkSheet-Managment")) {
               Display.waterMark();
               System.exit(0);
             }
             break;
-          case "\\exit" :
+          case "\\exit":
             if (Validation.confirm("to terminat MarkSheet-Managment")) {
               Display.waterMark();
               System.exit(0);
             }
             break;
-          default :
+          default:
             Display.printMessage(
                 RED + "\t\tError: Follow the commands rules strictly!" + RESET);
             break;

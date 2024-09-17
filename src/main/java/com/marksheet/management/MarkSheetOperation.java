@@ -1,21 +1,21 @@
-package com.marksheet.management;
+package main.java.com.marksheet.management;
+
+import main.java.com.marksheet.UI.Colors;
+import main.java.com.marksheet.UI.Content;
+import main.java.com.marksheet.UI.Display;
+import main.java.com.marksheet.model.Connectivity;
+import main.java.com.marksheet.model.ModelOperation;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import com.marksheet.UI.Colors;
-import com.marksheet.UI.Content;
-import com.marksheet.UI.Display;
-import com.marksheet.model.Connectivity;
-import com.marksheet.model.ModelOperation;
-
 public class MarkSheetOperation
 		implements
-			MarkSheetModelInterface,
-			Colors,
-			Content {
+		MarkSheetModelInterface,
+		Colors,
+		Content {
 	private static void inputes(Marksheet marksheet) {
 		marksheet.setEmail(Validation.checkEmail());
 		marksheet.setGender(Validation.checkGender());
@@ -56,49 +56,49 @@ public class MarkSheetOperation
 			Display.printMessage(SPECIFIC_COMMANDS_DETAIL);
 
 			switch (Validation.checkCommand(7)) {
-				case 1 :
+				case 1:
 					String name = Validation.checkName();
 					if (Validation.confirm("to update name")) {
 						ModelOperation.update(enrollment, "name", name);
 					}
 					break;
-				case 2 :
+				case 2:
 					int math = Validation.checkMarks("math");
 					if (Validation.confirm("to update math marks")) {
 						ModelOperation.update(enrollment, "math", math);
 					}
 					break;
-				case 3 :
+				case 3:
 					int chemistry = Validation.checkMarks("Chemistry");
 					if (Validation.confirm("to update chemistry marks")) {
 						ModelOperation.update(enrollment, "chemistry", chemistry);
 					}
 					break;
-				case 4 :
+				case 4:
 					int physics = Validation.checkMarks("Physics");
 					if (Validation.confirm("to update physics marks")) {
 						ModelOperation.update(enrollment, "physics", physics);
 					}
 					break;
-				case 5 :
+				case 5:
 					LocalDate DOB = Validation.checkDOB();
 					if (Validation.confirm("to update DOB")) {
 						ModelOperation.update(enrollment, "DOB", DOB);
 					}
 					break;
-				case 6 :
+				case 6:
 					String email = Validation.checkEmail();
 					if (Validation.confirm("to update email")) {
 						ModelOperation.update(enrollment, "email", email);
 					}
 					break;
-				case 7 :
+				case 7:
 					char gender = Validation.checkGender();
 					if (Validation.confirm("to update gender")) {
 						ModelOperation.update(enrollment, "gender", gender);
 					}
 					break;
-				default :
+				default:
 					break;
 			}
 		}

@@ -1,4 +1,8 @@
-package com.marksheet.model;
+package main.java.com.marksheet.model;
+
+import main.java.com.marksheet.UI.Display;
+import main.java.com.marksheet.management.Marksheet;
+import main.java.com.marksheet.management.Validation;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -6,10 +10,6 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-
-import com.marksheet.UI.Display;
-import com.marksheet.management.Marksheet;
-import com.marksheet.management.Validation;
 
 /**
  * Model Operation perform SQL operation to manipulation or intracted with

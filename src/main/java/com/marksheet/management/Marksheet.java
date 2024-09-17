@@ -1,9 +1,8 @@
-package com.marksheet.management;
+package main.java.com.marksheet.management;
 
+import main.java.com.marksheet.UI.Colors;
+import main.java.com.marksheet.UI.Display;
 import java.time.LocalDate;
-
-import com.marksheet.UI.Colors;
-import com.marksheet.UI.Display;
 
 public class Marksheet implements Colors {
 	private String rollNo;
