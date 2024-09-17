@@ -37,13 +37,13 @@ public class Management implements Colors, Content {
             marksheetOperation.add(new Marksheet());
             break;
           case "2":
-            marksheetOperation.update(Validation.checkEnrollment());
+            marksheetOperation.update(Validation.checkEnrollment(true));
             break;
           case "3":
             marksheetOperation.updateAll(new Marksheet());
             break;
           case "4":
-            marksheetOperation.deleteByRollNo(Validation.checkEnrollment());
+            marksheetOperation.deleteByRollNo(Validation.checkEnrollment(false));
             break;
           case "5":
             marksheetOperation.deleteByEmailId(Validation.checkEmail());
@@ -54,7 +54,7 @@ public class Management implements Colors, Content {
             break;
           case "7":
             ArrayList<String> studentInfo = marksheetOperation
-                .get(Validation.checkEnrollment());
+                .get(Validation.checkEnrollment(false));
             if (!studentInfo.isEmpty())
               Display.printInformation(studentInfo, HEADER);
             break;
@@ -160,7 +160,7 @@ public class Management implements Colors, Content {
             break;
           case "21":
             char Grade = marksheetOperation
-                .getGradeOfStudent(Validation.checkEnrollment());
+                .getGradeOfStudent(Validation.checkEnrollment(false));
             if (Grade != ' ')
               Display.printMessage("\t\tGrade -> " + Grade);
             break;

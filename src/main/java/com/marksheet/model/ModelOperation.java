@@ -91,6 +91,20 @@ public class ModelOperation extends Connectivity {
     return null;
   }
 
+  public static boolean isExists(String data, String field) {
+    try {
+      resultSet = find(data, field);
+      if (resultSet != null && resultSet.next() && resultSet.getInt(1) > 0)
+        return true;
+    } catch (SQLException e) {
+      Display.printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET
+          + BLUE + " -> Developer Error" + RESET);
+      Display.printMessage("Eror-8.1");
+      // e.printStackTrace();
+    }
+    return false;
+  }
+
   public static void delete(String data, String field) {
     String deleteQuery = "DELETE FROM " + Connectivity.TABLE_NAME + " WHERE "
         + field + " = ?";

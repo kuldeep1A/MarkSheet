@@ -35,7 +35,7 @@ public class MarkSheetOperation
 				"\n\t\tAdds the student's marksheet information to the result table");
 
 		marksheet.setName(Validation.checkName());
-		marksheet.setRollNo(Validation.checkEnrollment());
+		marksheet.setRollNo(Validation.checkEnrollment(true));
 
 		inputes(marksheet);
 
@@ -111,7 +111,7 @@ public class MarkSheetOperation
 	@Override
 	public boolean updateAll(Marksheet marksheet) {
 		Display.printMessage("\t\tWhich student's detail update enter Enrollment:");
-		marksheet.setRollNo(Validation.checkEnrollment());
+		marksheet.setRollNo(Validation.checkEnrollment(true));
 		ArrayList<String> student = get(marksheet.getRollNo());
 		if (!student.isEmpty()) {
 			Display.printInformation(student, HEADER);

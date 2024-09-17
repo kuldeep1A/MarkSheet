@@ -10,6 +10,7 @@ import java.io.Console;
 
 import main.java.com.marksheet.UI.Colors;
 import main.java.com.marksheet.UI.Display;
+import main.java.com.marksheet.model.ModelOperation;
 
 public class Validation implements Colors {
 	public static Scanner sc = new Scanner(System.in);
@@ -34,12 +35,18 @@ public class Validation implements Colors {
 		}
 	}
 
-	public static String checkEnrollment() {
+	public static String checkEnrollment(boolean isForUpdate) {
 		Display.printRules(2);
 		while (true) {
 			Display._printMessage("\n\t\tEnrollment of the student's: -> ");
 			String enrollment = sc.nextLine();
-			if (enrollment.matches("^24ENG4CSE[1-9]\\d{3}$"))
+			if (isForUpdate && ModelOperation.isExists(enrollment, "rollNo")) {
+				Display
+						.printMessage("\t\t" + "Student is already exists with Enrollment "
+								+ BLUE + "`" + enrollment + "`" + RESET
+								+ ", Please enter other Enrollment. and try again.");
+
+			} else if (enrollment.matches("^24ENG4CSE[1-9]\\d{3}$"))
 				return enrollment;
 			else if (enrollment.toLowerCase().equals("\\-1")
 					|| enrollment.toLowerCase().equals("\\exit")) {
@@ -209,13 +216,29 @@ public class Validation implements Colors {
 	}
 
 	public static String checkRoot() {
-		Display._printMessage("\n\t\tUsername: ");
+		// Console cons;
+		// String _user;
+		// if ((cons = System.console()) != null && (_user = cons.readLine("\t\t\t%s",
+		// "User: ")) != null) {
+		// cons.flush();
+		// return _user;
+		// }
+		// return null;
 
+		System.out.print("\n\t\tUser: ");
 		return sc.nextLine();
 	}
 
 	public static String checkPassword() {
-		Display._printMessage("\n\t\tPassword : ");
+		// Console cons;
+		// char[] passwd = null;
+		// if ((cons = System.console()) != null && (passwd =
+		// cons.readPassword("\t\t\t%s", "Password: ")) != null) {
+		// cons.flush();
+		// return new String(passwd);
+		// }
+		// return null;
+		System.out.print("\n\t\tPassowrd: ");
 		return sc.nextLine();
 	}
 }
