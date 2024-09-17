@@ -222,14 +222,15 @@ public class Validation implements Colors {
 	}
 
 	public static String checkPassword() {
-		Console cons = System.console();
-		char[] passwd = null;
-		if ((cons = System.console()) != null && (passwd = cons.readPassword("\t\t\t%s", "Password: ")) != null) {
-			cons.flush();
-			return new String(passwd);
-		}
-		return null;
-		// System.out.print("\n\t\tPassowrd: ");
-		// return sc.nextLine();
+		// Console cons = System.console();
+		// char[] passwd = null;
+		// if ((cons = System.console()) != null && (passwd =
+		// cons.readPassword("\t\t\t%s", "Password: ")) != null) {
+		// cons.flush();
+		// return new String(passwd);
+		// }
+		// return null;
+		System.out.print("\n\t\tPassowrd: ");
+		return sc.nextLine();
 	}
 }
