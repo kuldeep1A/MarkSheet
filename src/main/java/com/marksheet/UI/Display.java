@@ -9,6 +9,8 @@ import java.util.Set;
 
 /**
  * Display message or Document to the console
+ * 
+ * @apiNote Functions to Display data user friendly
  */
 public class Display extends Thread implements Content, Colors {
 

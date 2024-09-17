@@ -1,17 +1,24 @@
 package main.java.com.marksheet.management;
 
+import java.io.Console;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.io.Console;
 
 import main.java.com.marksheet.UI.Colors;
 import main.java.com.marksheet.UI.Display;
 import main.java.com.marksheet.model.ModelOperation;
 
+/**
+ * Validation of inputs enter by user. It handle incorrect with strong regex and
+ * logic
+ * 
+ * @apiNote Handle by regex
+ * @apiNote Inputs
+ */
 public class Validation implements Colors {
 	public static Scanner sc = new Scanner(System.in);
 
@@ -20,18 +27,16 @@ public class Validation implements Colors {
 		while (true) {
 			Display._printMessage("\n\t\tName of the Student: -> ");
 			String name = sc.nextLine();
-			if (name.length() >= 2 && name.length() <= 30
-					&& name.matches("^[A-Z][a-z]*(\\s[A-Z][a-z]*){0,30}$"))
+			if (name.length() >= 2 && name.length() <= 30 && name.matches("^[A-Z][a-z]*(\\s[A-Z][a-z]*){0,30}$")) {
 				return name;
-			else if (name.toLowerCase().equals("\\-1")
-					|| name.toLowerCase().equals("\\exit")) {
+			} else if (name.toLowerCase().equals("\\-1") || name.toLowerCase().equals("\\exit")) {
 				if (confirm("to terminat MarkSheet-Managment")) {
 					Display.waterMark();
 					System.exit(0);
 				}
-			} else
-				Display.printMessage(
-						RED + "\t\tError: Follow the names rules strictly!" + RESET);
+			} else {
+				Display.printMessage(RED + "\t\tError: Follow the names rules strictly!" + RESET);
+			}
 		}
 	}
 
@@ -41,22 +46,19 @@ public class Validation implements Colors {
 			Display._printMessage("\n\t\tEnrollment of the student's: -> ");
 			String enrollment = sc.nextLine();
 			if (isForUpdate && ModelOperation.isExists(enrollment, "rollNo")) {
-				Display
-						.printMessage("\t\t" + "Student is already exists with Enrollment "
-								+ BLUE + "`" + enrollment + "`" + RESET
-								+ ", Please enter other Enrollment. and try again.");
+				Display.printMessage("\t\t" + "Student is already exists with Enrollment " + BLUE + "`" + enrollment
+						+ "`" + RESET + ", Please enter other Enrollment. and try again.");
 
-			} else if (enrollment.matches("^24ENG4CSE[1-9]\\d{3}$"))
+			} else if (enrollment.matches("^24ENG4CSE[1-9]\\d{3}$")) {
 				return enrollment;
-			else if (enrollment.toLowerCase().equals("\\-1")
-					|| enrollment.toLowerCase().equals("\\exit")) {
+			} else if (enrollment.toLowerCase().equals("\\-1") || enrollment.toLowerCase().equals("\\exit")) {
 				if (confirm("to terminat MarkSheet-Managment")) {
 					Display.waterMark();
 					System.exit(0);
 				}
-			} else
-				Display.printMessage(
-						RED + "\t\tError: Follow the enrollments rules strictly!" + RESET);
+			} else {
+				Display.printMessage(RED + "\t\tError: Follow the enrollments rules strictly!" + RESET);
+			}
 		}
 	}
 
@@ -65,17 +67,16 @@ public class Validation implements Colors {
 		while (true) {
 			Display._printMessage("\n\t\tEmail of the student's: -> ");
 			String email = sc.nextLine().toLowerCase();
-			if (email.matches("^[a-zA-Z0-9\\.]{1,30}@[a-zA-Z]{3,12}\\.(com|in)$"))
+			if (email.matches("^[a-zA-Z0-9\\.]{1,30}@[a-zA-Z]{3,12}\\.(com|in)$")) {
 				return email;
-			else if (email.toLowerCase().equals("\\-1")
-					|| email.toLowerCase().equals("\\exit")) {
+			} else if (email.toLowerCase().equals("\\-1") || email.toLowerCase().equals("\\exit")) {
 				if (confirm("to terminat MarkSheet-Managment")) {
 					Display.waterMark();
 					System.exit(0);
 				}
-			} else
-				Display.printMessage(
-						RED + "\t\tError: Follow the email rules strictly!" + RESET);
+			} else {
+				Display.printMessage(RED + "\t\tError: Follow the email rules strictly!" + RESET);
+			}
 		}
 	}
 
@@ -84,18 +85,16 @@ public class Validation implements Colors {
 		while (true) {
 			Display._printMessage("\n\t\tGender of the student's: -> ");
 			String gender = sc.nextLine();
-			if (gender.length() == 1
-					&& (gender.charAt(0) == 'M' || gender.charAt(0) == 'F'))
+			if (gender.length() == 1 && (gender.charAt(0) == 'M' || gender.charAt(0) == 'F')) {
 				return gender.charAt(0);
-			else if (gender.toLowerCase().equals("\\-1")
-					|| gender.toLowerCase().equals("\\exit")) {
+			} else if (gender.toLowerCase().equals("\\-1") || gender.toLowerCase().equals("\\exit")) {
 				if (confirm("to terminat MarkSheet-Managment")) {
 					Display.waterMark();
 					System.exit(0);
 				}
-			} else
-				Display.printMessage(
-						RED + "\t\tError: Follow the gender rules strictly!" + RESET);
+			} else {
+				Display.printMessage(RED + "\t\tError: Follow the gender rules strictly!" + RESET);
+			}
 		}
 	}
 
@@ -104,8 +103,7 @@ public class Validation implements Colors {
 		while (true) {
 			Display._printMessage("\n\t\tDate of Brith of the student's: -> ");
 			String dateString = sc.nextLine();
-			if (dateString.toLowerCase().equals("\\-1")
-					|| dateString.toLowerCase().equals("\\exit")) {
+			if (dateString.toLowerCase().equals("\\-1") || dateString.toLowerCase().equals("\\exit")) {
 				if (confirm("to terminat MarkSheet-Managment")) {
 					Display.waterMark();
 					System.exit(0);
@@ -115,15 +113,13 @@ public class Validation implements Colors {
 			try {
 				LocalDate parseDate = LocalDate.parse(dateString, formatter);
 				String reformattedDate = parseDate.format(formatter);
-				if (reformattedDate.equals(dateString) && parseDate.getYear() >= 1999
-						&& parseDate.getYear() <= 2005)
+				if (reformattedDate.equals(dateString) && parseDate.getYear() >= 1999 && parseDate.getYear() <= 2005) {
 					return parseDate;
-				else
-					Display.printMessage(
-							RED + "\t\tError: Follow the date rules strictly!" + RESET);
+				} else {
+					Display.printMessage(RED + "\t\tError: Follow the date rules strictly!" + RESET);
+				}
 			} catch (DateTimeParseException | InputMismatchException e) {
-				Display.printMessage(
-						RED + "\t\tError: Follow the date rules strictly!" + RESET);
+				Display.printMessage(RED + "\t\tError: Follow the date rules strictly!" + RESET);
 			}
 		}
 	}
@@ -133,22 +129,21 @@ public class Validation implements Colors {
 			Display._printMessage("\n\t\tMarks of " + subject + " subject -> ");
 			String mString = sc.nextLine();
 			try {
-				if (Integer.parseInt(mString) == -1 || (Integer.parseInt(mString) >= 1
-						&& Integer.parseInt(mString) <= 100))
+				if (Integer.parseInt(mString) == -1
+						|| (Integer.parseInt(mString) >= 1 && Integer.parseInt(mString) <= 100)) {
 					return Integer.parseInt(mString);
-				else
-					Display
-							.printMessage(RED + "\t\tWarning: Marks out of range." + RESET);
+				} else {
+					Display.printMessage(RED + "\t\tWarning: Marks out of range." + RESET);
+				}
 			} catch (NumberFormatException e) {
-				if (mString.toLowerCase().equals("\\-1")
-						|| mString.toLowerCase().equals("\\exit")) {
+				if (mString.toLowerCase().equals("\\-1") || mString.toLowerCase().equals("\\exit")) {
 					if (confirm("to terminat MarkSheet-Managment")) {
 						Display.waterMark();
 						System.exit(0);
 					}
-				} else
-					Display.printMessage(
-							RED + "\t\tError: Follow the marks rules strictly!" + RESET);
+				} else {
+					Display.printMessage(RED + "\t\tError: Follow the marks rules strictly!" + RESET);
+				}
 			}
 		}
 	}
@@ -158,16 +153,14 @@ public class Validation implements Colors {
 			Display.printMessage("\n\t\tConfirm " + message + " : `y` or `n`");
 			Display._printMessage("\t\t-> ");
 			String yesOrNo = sc.nextLine().toLowerCase();
-			if (yesOrNo.equals("y"))
+			if (yesOrNo.equals("y")) {
 				return true;
-			else if (yesOrNo.equals("n")) {
-				Display.printMessage(
-						"\t\tSo Okey, then " + message + " opearation are not performed.");
+			} else if (yesOrNo.equals("n")) {
+				Display.printMessage("\t\tSo Okey, then " + message + " opearation are not performed.");
 				return false;
-			} else
-				Display.printMessage(
-						RED + "\t\tError: Follow the confirm `y` or `n` rules strictly!"
-								+ RESET);
+			} else {
+				Display.printMessage(RED + "\t\tError: Follow the confirm `y` or `n` rules strictly!" + RESET);
+			}
 		}
 	}
 
@@ -176,21 +169,21 @@ public class Validation implements Colors {
 			Display._printMessage("\n\t\tCommand to select -> ");
 			String commad = sc.nextLine();
 			try {
-				if (Integer.parseInt(commad) >= 1 && Integer.parseInt(commad) <= range)
+				if (Integer.parseInt(commad) >= 1 && Integer.parseInt(commad) <= range) {
 					return Integer.parseInt(commad);
-				else
-					Display.printMessage(RED
-							+ "\t\tWarning: Command out of range. Please enter a number between 1 and "
+				} else {
+					Display.printMessage(RED + "\t\tWarning: Command out of range. Please enter a number between 1 and "
 							+ range + RESET);
+				}
 			} catch (NumberFormatException e) {
 				if (commad.equals("\\-1") || commad.equals("\\exit")) {
 					if (confirm("to terminat MarkSheet-Managment")) {
 						Display.waterMark();
 						System.exit(0);
 					}
-				} else
-					Display.printMessage(
-							RED + "\t\tError: Follow the commands rules strictly!" + RESET);
+				} else {
+					Display.printMessage(RED + "\t\tError: Follow the commands rules strictly!" + RESET);
+				}
 			}
 		}
 	}
@@ -201,17 +194,16 @@ public class Validation implements Colors {
 			Display._printMessage("\n\t\tNew Table Name -> ");
 			String tableName = sc.nextLine();
 
-			if (tableName.matches("^[A-Za-z0-9_$]{5,19}$")
-					&& !arrNames.contains(tableName)) {
+			if (tableName.matches("^[A-Za-z0-9_$]{5,19}$") && !arrNames.contains(tableName)) {
 				return tableName.toLowerCase();
 			} else if (tableName.equals("\\-1") || tableName.equals("\\exit")) {
 				if (confirm("to terminat MarkSheet-Managment")) {
 					Display.waterMark();
 					System.exit(0);
 				}
-			} else
-				Display.printMessage(
-						RED + "\t\tError: Follow the tables rules strictly!" + RESET);
+			} else {
+				Display.printMessage(RED + "\t\tError: Follow the tables rules strictly!" + RESET);
+			}
 		}
 	}
 
@@ -230,15 +222,14 @@ public class Validation implements Colors {
 	}
 
 	public static String checkPassword() {
-		// Console cons;
-		// char[] passwd = null;
-		// if ((cons = System.console()) != null && (passwd =
-		// cons.readPassword("\t\t\t%s", "Password: ")) != null) {
-		// cons.flush();
-		// return new String(passwd);
-		// }
-		// return null;
-		System.out.print("\n\t\tPassowrd: ");
-		return sc.nextLine();
+		Console cons = System.console();
+		char[] passwd = null;
+		if ((cons = System.console()) != null && (passwd = cons.readPassword("\t\t\t%s", "Password: ")) != null) {
+			cons.flush();
+			return new String(passwd);
+		}
+		return null;
+		// System.out.print("\n\t\tPassowrd: ");
+		// return sc.nextLine();
 	}
 }

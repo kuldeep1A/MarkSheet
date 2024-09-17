@@ -11,6 +11,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+/**
+ * MarkSheet Opeartion to perform a task
+ * 
+ * @apiNote Manipulation
+ * @apiNote Upation
+ * @apiNote Fetches
+ */
 public class MarkSheetOperation
 		implements
 		MarkSheetModelInterface,
