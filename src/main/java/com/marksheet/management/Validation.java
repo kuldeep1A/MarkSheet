@@ -1,6 +1,5 @@
 package main.java.com.marksheet.management;
 
-import java.io.Console;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -208,29 +207,12 @@ public class Validation implements Colors {
 	}
 
 	public static String checkRoot() {
-		// Console cons;
-		// String _user;
-		// if ((cons = System.console()) != null && (_user = cons.readLine("\t\t\t%s",
-		// "User: ")) != null) {
-		// cons.flush();
-		// return _user;
-		// }
-		// return null;
-
 		System.out.print("\n\t\tUser: ");
 		return sc.nextLine();
 	}
 
 	public static String checkPassword() {
-		// Console cons = System.console();
-		// char[] passwd = null;
-		// if ((cons = System.console()) != null && (passwd =
-		// cons.readPassword("\t\t\t%s", "Password: ")) != null) {
-		// cons.flush();
-		// return new String(passwd);
-		// }
-		// return null;
-		System.out.print("\n\t\tPassowrd: ");
+		System.out.print("\n\t\tPassword: ");
 		return sc.nextLine();
 	}
 }
