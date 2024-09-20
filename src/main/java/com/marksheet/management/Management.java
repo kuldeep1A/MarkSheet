@@ -26,6 +26,13 @@ public class Management implements Colors, Content {
     return Connectivity.connect();
   }
 
+  private void isContinue() {
+    if (!Validation.confirm("to continue this MarkSheet Management or not ?")) {
+      Display.waterMark();
+      System.exit(0);
+    }
+  }
+
   private void operationByCommand() {
     MarkSheetOperation marksheetOperation = new MarkSheetOperation();
     while (true) {
@@ -35,21 +42,27 @@ public class Management implements Colors, Content {
         switch (command) {
           case "1":
             marksheetOperation.add(new Marksheet());
+            isContinue();
             break;
           case "2":
             marksheetOperation.update(Validation.checkEnrollment(true));
+            isContinue();
             break;
           case "3":
             marksheetOperation.updateAll(new Marksheet());
+            isContinue();
             break;
           case "4":
             marksheetOperation.deleteByRollNo(Validation.checkEnrollment(false));
+            isContinue();
             break;
           case "5":
             marksheetOperation.deleteByEmailId(Validation.checkEmail());
+            isContinue();
             break;
           case "6":
             marksheetOperation.deleteAll();
+            isContinue();
             start();
             break;
           case "7":
@@ -57,6 +70,7 @@ public class Management implements Colors, Content {
                 .get(Validation.checkEnrollment(false));
             if (!studentInfo.isEmpty())
               Display.printInformation(studentInfo, HEADER);
+            isContinue();
             break;
           case "8":
             Set<ArrayList<String>> studentsInfo = marksheetOperation.getAll();
@@ -65,6 +79,7 @@ public class Management implements Colors, Content {
                   studentsInfo.size());
               Display.printInformation(studentsInfo);
             }
+            isContinue();
             break;
           case "9":
             LinkedHashSet<ArrayList<String>> meritStudents = marksheetOperation
@@ -74,10 +89,12 @@ public class Management implements Colors, Content {
                   "\t\tThe Marit List of student who have 80% above percentile :");
               Display.printInformation(meritStudents, COLUMN_WIDTHS, HEADER);
             }
+            isContinue();
             break;
           case "10":
             Display.printMessage("\t\tThe total number of student are: ",
                 marksheetOperation.numberOfStudent());
+            isContinue();
             break;
           case "11":
             LinkedHashSet<ArrayList<String>> failedStudent = marksheetOperation
@@ -88,6 +105,7 @@ public class Management implements Colors, Content {
               Display.printInformation(failedStudent);
             } else
               Display.printMessage(BLUE + "\t\tAll student are hoshiyar :)");
+            isContinue();
             break;
           case "12":
             ArrayList<ArrayList<String>> absentStudents = marksheetOperation
@@ -98,6 +116,7 @@ public class Management implements Colors, Content {
               Display.printInformation(absentStudents, COLUMN_WIDTHS_MARKS,
                   HEADER_MARKS);
             }
+            isContinue();
             break;
           case "13":
             ArrayList<ArrayList<String>> topperStudents = marksheetOperation
@@ -108,6 +127,7 @@ public class Management implements Colors, Content {
               Display.printInformation(topperStudents,
                   COLUMN_WIDTHS_TOTAL_MARKS, HEADER_TOTAL_MARKS);
             }
+            isContinue();
             break;
           case "14":
             String[][] lowestStudents = marksheetOperation
@@ -120,6 +140,7 @@ public class Management implements Colors, Content {
                   COLUMN_WIDTHS_TOTAL_MARKS, HEADER_TOTAL_MARKS);
             } else
               Display.printMessage(BLUE + "\t\tAll student are hoshiyar :)");
+            isContinue();
             break;
           case "15":
             String[][] passedStudents = marksheetOperation.getPassedStdents();
@@ -130,10 +151,12 @@ public class Management implements Colors, Content {
                   COLUMN_WIDTHS_TOTAL_MARKS, HEADER_TOTAL_MARKS);
             } else
               Display.printMessage(BLUE + "\t\tAll student are hoshiyar :)");
+            isContinue();
             break;
           case "16":
             Display.printMessage("\t\tThe average result of Class are : ",
                 marksheetOperation.getAverageResultOfClass());
+            isContinue();
             break;
           case "17":
             List<ArrayList<String>> atktStudents = marksheetOperation
@@ -145,6 +168,7 @@ public class Management implements Colors, Content {
               Display.printInformation(atktStudents);
             } else
               Display.printMessage(BLUE + "\t\tAll student are hoshiyar :)");
+            isContinue();
             break;
           case "18":
             break;
@@ -152,33 +176,40 @@ public class Management implements Colors, Content {
             Display.printMessage(
                 "\t\tThe total number of Boys students who Passed : ",
                 marksheetOperation.getNumberOfBoysPass());
+            isContinue();
             break;
           case "20":
             Display.printMessage(
                 "\t\tThe total number of Girls students who Passed : ",
                 marksheetOperation.getNumberOfGirlsPass());
+            isContinue();
             break;
           case "21":
             char Grade = marksheetOperation
                 .getGradeOfStudent(Validation.checkEnrollment(false));
             if (Grade != ' ')
               Display.printMessage("\t\tGrade -> " + Grade);
+            isContinue();
             break;
           case "22":
             Display.printMessage("\t\tThe total number of Girls students are: ",
                 marksheetOperation.getTotalNumberOfGirls());
+            isContinue();
             break;
           case "23":
             Display.printMessage("\t\tThe total number of Boys students are: ",
                 marksheetOperation.getTotalNumberOfBoys());
+            isContinue();
             break;
           case "24":
             Display.printMessage("\t\tThe average result of all Girls are: ",
                 marksheetOperation.getAverageResultOfGirls());
+            isContinue();
             break;
           case "25":
             Display.printMessage("\t\tThe average result of all Boys are: ",
                 marksheetOperation.getAverageResultOfBoys());
+            isContinue();
             break;
           case "26":
             Display.printMessage("\n\n");
