@@ -1,7 +1,7 @@
-package main.java.com.marksheet.management;
+package com.marksheet.management;
 
-import main.java.com.marksheet.UI.Colors;
-import main.java.com.marksheet.UI.Display;
+import com.marksheet.UI.Colors;
+import com.marksheet.UI.Display;
 import java.time.LocalDate;
 
 public class Marksheet implements Colors {

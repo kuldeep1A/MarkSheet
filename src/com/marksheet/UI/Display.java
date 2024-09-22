@@ -1,6 +1,6 @@
-package main.java.com.marksheet.UI;
+package com.marksheet.UI;
 
-import main.java.com.marksheet.model.Connectivity;
+import com.marksheet.model.Connectivity;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

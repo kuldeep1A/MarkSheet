@@ -1,4 +1,4 @@
-package main.java.com.marksheet.UI;
+package com.marksheet.UI;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,15 +13,14 @@ public interface Content {
 
 	String SHOW_CURSOR = "\u001B[?25h";
 
-	ArrayList<String> HEADER = new ArrayList<>(Arrays.asList("Enrollment", "Name",
-			"Math", "Chemistry", "Physics", "DOB", "Email", "Gender"));
+	ArrayList<String> HEADER = new ArrayList<>(
+			Arrays.asList("Enrollment", "Name", "Math", "Chemistry", "Physics", "DOB", "Email", "Gender"));
 
 	ArrayList<String> HEADER_MARKS = new ArrayList<>(
 			Arrays.asList("Enrollment", "Name", "Math", "Chemistry", "Physics"));
 
-	ArrayList<String> HEADER_TOTAL_MARKS = new ArrayList<>(
-			Arrays.asList("Enrollment", "Name", "Math", "Chemistry", "Physics", "DOB",
-					"Email", "Gender", "Total Marks"));
+	ArrayList<String> HEADER_TOTAL_MARKS = new ArrayList<>(Arrays.asList("Enrollment", "Name", "Math", "Chemistry",
+			"Physics", "DOB", "Email", "Gender", "Total Marks"));
 
 	int[] COLUMN_WIDTHS = { 15, 30, 6, 10, 8, 12, 40, 6 };
 
@@ -74,6 +73,5 @@ public interface Content {
 			       \t\t6.\tChange the Email
 			       \t\t7.\tChange the Gender
 			       """;
-	String TABLE_NAME_USE = "-".repeat(24)
-			+ " MarkSheet Management now working on table ";
+	String TABLE_NAME_USE = "-".repeat(24) + " MarkSheet Management now working on table ";
 }

@@ -1,4 +1,4 @@
-package main.java.com.marksheet.model;
+package com.marksheet.model;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -14,12 +14,12 @@ import java.util.ResourceBundle;
 
 import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 
-import main.java.com.marksheet.UI.Colors;
-import main.java.com.marksheet.UI.Content;
-import main.java.com.marksheet.UI.Display;
-import main.java.com.marksheet.management.MarkSheetOperation;
-import main.java.com.marksheet.management.Marksheet;
-import main.java.com.marksheet.management.Validation;
+import com.marksheet.UI.Colors;
+import com.marksheet.UI.Content;
+import com.marksheet.UI.Display;
+import com.marksheet.management.MarkSheetOperation;
+import com.marksheet.management.Marksheet;
+import com.marksheet.management.Validation;
 
 /**
  * Connectivity
@@ -48,7 +48,7 @@ public class Connectivity implements Colors, Content {
 		ArrayList<String> tableNames = new ArrayList<>();
 		int i = 1;
 		try {
-			ResourceBundle rb = ResourceBundle.getBundle("main.java.com.marksheet.resources.mysql");
+			ResourceBundle rb = ResourceBundle.getBundle("com.marksheet.resources.mysql");
 
 			Class.forName(rb.getString("DRIVER"));
 			conn = DriverManager.getConnection(rb.getString("URL"), _user, _pass);

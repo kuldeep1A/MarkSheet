@@ -1,8 +1,8 @@
-package main.java.com.marksheet.model;
+package com.marksheet.model;
 
-import main.java.com.marksheet.UI.Display;
-import main.java.com.marksheet.management.Marksheet;
-import main.java.com.marksheet.management.Validation;
+import com.marksheet.UI.Display;
+import com.marksheet.management.Marksheet;
+import com.marksheet.management.Validation;
 
 import java.sql.Date;
 import java.sql.ResultSet;

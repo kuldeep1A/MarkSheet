@@ -1,4 +1,4 @@
-package main.java.com.marksheet.management;
+package com.marksheet.management;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

@@ -1,4 +1,4 @@
-package main.java.com.marksheet.management;
+package com.marksheet.management;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import main.java.com.marksheet.UI.Colors;
-import main.java.com.marksheet.UI.Display;
-import main.java.com.marksheet.model.ModelOperation;
+import com.marksheet.UI.Colors;
+import com.marksheet.UI.Display;
+import com.marksheet.model.ModelOperation;
 
 /**
  * Validation of inputs enter by user. It handle incorrect with strong regex and
@@ -26,7 +26,7 @@ public class Validation implements Colors {
 		while (true) {
 			Display._printMessage("\n\t\tName of the Student: -> ");
 			String name = sc.nextLine();
-			if (name.length() >= 2 && name.length() <= 30 && name.matches("^[A-Z][a-z]*(\\s[A-Z][a-z]*){0,30}$")) {
+			if (name.length() >= 2 && name.length() <= 30 && name.matches("^[A-Z][a-z]*(\\s[A-Z][a-z]*){1,29}$")) {
 				return name;
 			} else if (name.toLowerCase().equals("\\-1") || name.toLowerCase().equals("\\exit")) {
 				if (confirm("to terminat MarkSheet-Managment")) {

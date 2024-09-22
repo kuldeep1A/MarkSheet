@@ -1,9 +1,9 @@
-package main.java.com.marksheet.management;
+package com.marksheet.management;
 
-import main.java.com.marksheet.UI.Colors;
-import main.java.com.marksheet.UI.Content;
-import main.java.com.marksheet.UI.Display;
-import main.java.com.marksheet.model.Connectivity;
+import com.marksheet.UI.Colors;
+import com.marksheet.UI.Content;
+import com.marksheet.UI.Display;
+import com.marksheet.model.Connectivity;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
