@@ -1,12 +1,5 @@
 package main.java.com.marksheet.model;
 
-import main.java.com.marksheet.UI.Colors;
-import main.java.com.marksheet.UI.Content;
-import main.java.com.marksheet.UI.Display;
-import main.java.com.marksheet.management.MarkSheetOperation;
-import main.java.com.marksheet.management.Marksheet;
-import main.java.com.marksheet.management.Validation;
-
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -16,10 +9,17 @@ import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
+import main.java.com.marksheet.UI.Colors;
+import main.java.com.marksheet.UI.Content;
+import main.java.com.marksheet.UI.Display;
+import main.java.com.marksheet.management.MarkSheetOperation;
+import main.java.com.marksheet.management.Marksheet;
+import main.java.com.marksheet.management.Validation;
 
 /**
  * Connectivity
@@ -48,23 +48,21 @@ public class Connectivity implements Colors, Content {
 		ArrayList<String> tableNames = new ArrayList<>();
 		int i = 1;
 		try {
-			ResourceBundle rb = ResourceBundle
-					.getBundle("main.java.com.marksheet.resources.mysql");
+			ResourceBundle rb = ResourceBundle.getBundle("main.java.com.marksheet.resources.mysql");
 
 			Class.forName(rb.getString("DRIVER"));
 			conn = DriverManager.getConnection(rb.getString("URL"), _user, _pass);
 			stmt = conn.createStatement();
 
 			stmt.execute("CREATE DATABASE IF NOT EXISTS marksheet");
-			String url = String.format(rb.getString("URL"), "marksheet");
-
+			String url = String.format(rb.getString("URL_F"), "marksheet");
+			stmt.execute("USE marksheet");
 			conn = DriverManager.getConnection(url, _user, _pass);
 
 			DatabaseMetaData dmd = conn.getMetaData();
 			String catalog = conn.getCatalog();
 
-			ResultSet rsTable = dmd.getTables(catalog, null, "%",
-					new String[] { "TABLE" });
+			ResultSet rsTable = dmd.getTables(catalog, null, "%", new String[] { "TABLE" });
 
 			Display.loading("Loading tables ", 25);
 			Display.printMessage("\n\n\t\tTables in the database:");
@@ -76,8 +74,8 @@ public class Connectivity implements Colors, Content {
 			}
 			Display.printMessage("\t\t" + i++ + ". " + "Create new Table");
 			int _tab = tableNames.size() > 9 ? 26 : 27;
-			Display.printInformation(CYAN2 + COMMANDS_RULES + RESET,
-					tableNames.size() + 1, COMMANDS_RULES.length() + _tab);
+			Display.printInformation(CYAN2 + COMMANDS_RULES + RESET, tableNames.size() + 1,
+					COMMANDS_RULES.length() + _tab);
 			int commad = Validation.checkCommand(tableNames.size() + 1);
 
 			if (commad == tableNames.size() + 1) {
@@ -101,37 +99,32 @@ public class Connectivity implements Colors, Content {
 			}
 		} catch (MissingResourceException e) {
 			Display.printMessage(RED + "\n\t\tError Resource: " + RESET + CYAN2
-					+ "Resource file not not found, please add the resource file for accesss the credential."
-					+ RESET);
+					+ "Resource file not not found, please add the resource file for accesss the credential." + RESET);
 			Display.printMessage("Eror-2.1");
 			Display.waterMark();
 			System.exit(0);
 		} catch (ClassNotFoundException e) {
 			Display.printMessage(RED + "\n\t\tError DBMS: " + RESET + CYAN2
-					+ "MySql Driver not found, please connect the connector for creating a brige."
-					+ RESET);
+					+ "MySql Driver not found, please connect the connector for creating a brige." + RESET);
 			Display.printMessage("Eror-2");
 			Display.waterMark();
 			System.exit(0);
 			// e.printStackTrace();
 		} catch (CommunicationsException e) {
-			Display.printMessage(RED + "\n\t\tCommunications Exception: " + RESET
-					+ CYAN2
-					+ "It cause because dbms server may not start or dbms are not running."
-					+ RESET);
+			Display.printMessage(RED + "\n\t\tCommunications Exception: " + RESET + CYAN2
+					+ "It cause because dbms server may not start or dbms are not running." + RESET);
 			Display.printMessage("Eror-3");
 			Display.waterMark();
 			System.exit(0);
 		} catch (SQLSyntaxErrorException e) {
-			Display.printMessage(RED + "\n\t\tSQL Exception: " + RESET + CYAN2
-					+ e.getMessage() + RESET);
+			Display.printMessage(RED + "\n\t\tSQL Exception: " + RESET + CYAN2 + e.getMessage() + RESET);
 			Display.waterMark();
 			Display.printMessage("Eror-4");
 			// e.printStackTrace();
 			System.exit(0);
 		} catch (SQLException e) {
-			Display.printMessage(RED + "\n\t\tSQL Exception: " + RESET + CYAN2
-					+ e.getMessage() + RESET);
+			Display.printMessage(RED + "\n\t\tSQL Exception: " + RESET + CYAN2 + e.getMessage() + RESET);
+			// e.printStackTrace();
 			Display.waterMark();
 			Display.printMessage("Eror-5");
 			System.exit(0);
