@@ -45,7 +45,7 @@ public class Management implements Colors, Content {
             isContinue();
             break;
           case "2":
-            marksheetOperation.update(Validation.checkEnrollment(true));
+            marksheetOperation.update(Validation.checkEnrollment(false));
             isContinue();
             break;
           case "3":
@@ -61,9 +61,9 @@ public class Management implements Colors, Content {
             isContinue();
             break;
           case "6":
-            marksheetOperation.deleteAll();
+            if (marksheetOperation.deleteAll())
+              start();
             isContinue();
-            start();
             break;
           case "7":
             ArrayList<String> studentInfo = marksheetOperation
@@ -113,8 +113,7 @@ public class Management implements Colors, Content {
             if (!absentStudents.isEmpty()) {
               Display.printMessage("\t\tThe List of students who absent : "
                   + absentStudents.size());
-              Display.printInformation(absentStudents, COLUMN_WIDTHS_MARKS,
-                  HEADER_MARKS);
+              Display.printInformation(absentStudents, COLUMN_WIDTHS, HEADER);
             }
             isContinue();
             break;
@@ -171,6 +170,8 @@ public class Management implements Colors, Content {
             isContinue();
             break;
           case "18":
+            Display.printMessage("", marksheetOperation.getCutOff());
+            isContinue();
             break;
           case "19":
             Display.printMessage(

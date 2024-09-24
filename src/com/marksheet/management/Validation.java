@@ -25,7 +25,7 @@ public class Validation implements Colors {
 		Display.printRules(1);
 		while (true) {
 			Display._printMessage("\n\t\tName of the Student: -> ");
-			String name = sc.nextLine();
+			String name = sc.nextLine().trim();
 			if (name.length() >= 2 && name.length() <= 30 && name.matches("^[A-Z][a-z]*(\\s[A-Z][a-z]*){1,29}$")) {
 				return name;
 			} else if (name.toLowerCase().equals("\\-1") || name.toLowerCase().equals("\\exit")) {
@@ -43,7 +43,7 @@ public class Validation implements Colors {
 		Display.printRules(2);
 		while (true) {
 			Display._printMessage("\n\t\tEnrollment of the student's: -> ");
-			String enrollment = sc.nextLine();
+			String enrollment = sc.nextLine().toUpperCase().trim();
 			if (isForUpdate && ModelOperation.isExists(enrollment, "rollNo")) {
 				Display.printMessage("\t\t" + "Student is already exists with Enrollment " + BLUE + "`" + enrollment
 						+ "`" + RESET + ", Please enter other Enrollment. and try again.");
@@ -65,7 +65,7 @@ public class Validation implements Colors {
 		Display.printRules(3);
 		while (true) {
 			Display._printMessage("\n\t\tEmail of the student's: -> ");
-			String email = sc.nextLine().toLowerCase();
+			String email = sc.nextLine().toLowerCase().trim();
 			if (email.matches("^[a-zA-Z0-9\\.]{1,30}@[a-zA-Z]{3,12}\\.(com|in)$")) {
 				return email;
 			} else if (email.toLowerCase().equals("\\-1") || email.toLowerCase().equals("\\exit")) {
@@ -83,7 +83,7 @@ public class Validation implements Colors {
 		Display.printRules(4);
 		while (true) {
 			Display._printMessage("\n\t\tGender of the student's: -> ");
-			String gender = sc.nextLine();
+			String gender = sc.nextLine().trim();
 			if (gender.length() == 1 && (gender.charAt(0) == 'M' || gender.charAt(0) == 'F')) {
 				return gender.charAt(0);
 			} else if (gender.toLowerCase().equals("\\-1") || gender.toLowerCase().equals("\\exit")) {
@@ -101,7 +101,7 @@ public class Validation implements Colors {
 		Display.printRules(5);
 		while (true) {
 			Display._printMessage("\n\t\tDate of Brith of the student's: -> ");
-			String dateString = sc.nextLine();
+			String dateString = sc.nextLine().trim();
 			if (dateString.toLowerCase().equals("\\-1") || dateString.toLowerCase().equals("\\exit")) {
 				if (confirm("to terminat MarkSheet-Managment")) {
 					Display.waterMark();
@@ -126,7 +126,7 @@ public class Validation implements Colors {
 	public static int checkMarks(String subject) {
 		while (true) {
 			Display._printMessage("\n\t\tMarks of " + subject + " subject -> ");
-			String mString = sc.nextLine();
+			String mString = sc.nextLine().trim();
 			try {
 				if (Integer.parseInt(mString) == -1
 						|| (Integer.parseInt(mString) >= 1 && Integer.parseInt(mString) <= 100)) {
@@ -151,7 +151,7 @@ public class Validation implements Colors {
 		while (true) {
 			Display.printMessage("\n\t\tConfirm " + message + " : `y` or `n`");
 			Display._printMessage("\t\t-> ");
-			String yesOrNo = sc.nextLine().toLowerCase();
+			String yesOrNo = sc.nextLine().toLowerCase().trim();
 			if (yesOrNo.equals("y")) {
 				return true;
 			} else if (yesOrNo.equals("n")) {
@@ -166,7 +166,7 @@ public class Validation implements Colors {
 	public static int checkCommand(int range) {
 		while (true) {
 			Display._printMessage("\n\t\tCommand to select -> ");
-			String commad = sc.nextLine();
+			String commad = sc.nextLine().trim();
 			try {
 				if (Integer.parseInt(commad) >= 1 && Integer.parseInt(commad) <= range) {
 					return Integer.parseInt(commad);
@@ -191,7 +191,7 @@ public class Validation implements Colors {
 		Display.printRules(7);
 		while (true) {
 			Display._printMessage("\n\t\tNew Table Name -> ");
-			String tableName = sc.nextLine();
+			String tableName = sc.nextLine().trim();
 
 			if (tableName.matches("^[A-Za-z0-9_$]{5,19}$") && !arrNames.contains(tableName)) {
 				return tableName.toLowerCase();
@@ -206,13 +206,35 @@ public class Validation implements Colors {
 		}
 	}
 
+	public static double checkPercentage() {
+		Display.printRules(9);
+		while (true) {
+			Display._printMessage("\n\t\tEnter Percentage -> ");
+			String percentageString = sc.nextLine().trim();
+			try {
+				if (Double.parseDouble(percentageString) >= 57.50 && Double.parseDouble(percentageString) <= 93.50)
+					return Double.parseDouble(percentageString);
+				else
+					Display.printMessage(RED + "\t\tError: Follow the Percentage rules strictly!" + RESET);
+			} catch (NumberFormatException e) {
+				if (percentageString.equals("\\-1") || percentageString.equals("\\exit")) {
+					if (confirm("to terminat MarkSheet-Managment")) {
+						Display.waterMark();
+						System.exit(0);
+					}
+				} else
+					Display.printMessage(RED + "\t\tError: Follow the Percentage rules strictly!" + RESET);
+			}
+		}
+	}
+
 	public static String checkRoot() {
 		System.out.print("\n\t\tUser: ");
-		return sc.nextLine();
+		return sc.nextLine().trim();
 	}
 
 	public static String checkPassword() {
 		System.out.print("\n\t\tPassword: ");
-		return sc.nextLine();
+		return sc.nextLine().trim();
 	}
 }

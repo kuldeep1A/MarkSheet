@@ -133,15 +133,20 @@ public class ModelOperation extends Connectivity {
     }
   }
 
-  public static void deleteTableData() {
+  public static boolean deleteTableData() {
     // String deleteQuery = "DROP TABLE IF EXISTS " + Connectivity.table +"";
     String deleteQuery = "DELETE FROM " + Connectivity.TABLE_NAME + "";
     try {
-      stmt.executeUpdate(deleteQuery);
+      int rowAffected = stmt.executeUpdate(deleteQuery);
+      if (rowAffected > 0)
+        return true;
+      else
+        return false;
     } catch (SQLException e) {
       Display.printMessage("delete table");
       Display.printMessage("Eror-9");
       // e.printStackTrace();
+      return false;
     }
   }
 
@@ -204,6 +209,22 @@ public class ModelOperation extends Connectivity {
       // e.printStackTrace();
     }
     return students;
+  }
+
+  public static double getSpecific(String query, String filed) {
+    double cutOff = 0.0;
+    try {
+      resultSet = stmt.executeQuery(query);
+      while (resultSet.next()) {
+        cutOff = resultSet.getDouble("cutOff_count");
+      }
+    } catch (SQLException e) {
+      Display.printMessage(RED + "\t\tSQL Exception-> " + e.getMessage() + RESET
+          + BLUE + " -> Developer Error" + RESET);
+      Display.printMessage("Eror-11");
+      // e.printStackTrace();
+    }
+    return cutOff;
   }
 
   public static LinkedHashSet<ArrayList<String>> getAll() {

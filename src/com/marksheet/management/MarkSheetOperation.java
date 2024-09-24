@@ -117,8 +117,8 @@ public class MarkSheetOperation
 	 */
 	@Override
 	public boolean updateAll(Marksheet marksheet) {
-		Display.printMessage("\t\tWhich student's detail update enter Enrollment:");
-		marksheet.setRollNo(Validation.checkEnrollment(true));
+		Display.printMessage("\t\tWhich student's all detail update enter Enrollment:");
+		marksheet.setRollNo(Validation.checkEnrollment(false));
 		ArrayList<String> student = get(marksheet.getRollNo());
 		if (!student.isEmpty()) {
 			Display.printInformation(student, HEADER);
@@ -159,9 +159,9 @@ public class MarkSheetOperation
 	@Override
 	public boolean deleteAll() {
 		if (Validation.confirm("to delete the entire record of the table")) {
-			ModelOperation.deleteTableData();
+			return ModelOperation.deleteTableData();
 		}
-		return true;
+		return false;
 	}
 
 	/**
@@ -223,7 +223,8 @@ public class MarkSheetOperation
 	public LinkedHashSet<ArrayList<String>> getFailedStudentsList() {
 		String query = "SELECT *, (math + chemistry + physics) AS total_marks FROM "
 				+ Connectivity.TABLE_NAME
-				+ " WHERE math < 33 OR chemistry < 33 OR physics < 33 ORDER BY rollNo";
+				+ " WHERE (math < 33 AND chemistry < 33) OR (math < 33 AND physics < 33) OR (chemistry < 33 AND physics < 33) ORDER BY rollNo";
+		// OR (math < 33 AND chemistry < 33 AND physics < 33)
 
 		// For logically
 
@@ -252,7 +253,7 @@ public class MarkSheetOperation
 	public ArrayList<ArrayList<String>> getAbsenties() {
 		String query = "SELECT * FROM " + Connectivity.TABLE_NAME
 				+ " WHERE math = -1 OR chemistry = -1 OR physics = -1 ORDER BY (math + chemistry + physics)";
-		ArrayList<ArrayList<String>> absentStudents = ModelOperation.get(query, 5);
+		ArrayList<ArrayList<String>> absentStudents = ModelOperation.get(query, 8);
 
 		// Set<ArrayList<String>> students = getAll();
 		// ArrayList<ArrayList<String>> absentStudent = new ArrayList<>();
@@ -336,8 +337,10 @@ public class MarkSheetOperation
 	 */
 	@Override
 	public List<ArrayList<String>> getATKTStudents() {
-		LinkedHashSet<ArrayList<String>> res = getFailedStudentsList();
-		return new ArrayList<>(res);
+		String query = "SELECT *, (math + chemistry + physics) AS total_marks FROM "
+				+ Connectivity.TABLE_NAME
+				+ " WHERE (math < 33 AND chemistry > 33 AND physics > 33) OR (math > 33 AND chemistry < 33 AND physics > 33) OR (math > 33 AND chemistry > 33 AND physics < 33) ORDER BY rollNo";
+		return ModelOperation.getSpecific(query);
 	}
 
 	/**
@@ -345,7 +348,14 @@ public class MarkSheetOperation
 	 */
 	@Override
 	public double getCutOff() {
-		throw new UnsupportedOperationException("Unimplemented method 'getCutOff'");
+		double percentage = Validation.checkPercentage();
+		String query = "SELECT COUNT(*) AS cutOff_count FROM "
+				+ Connectivity.TABLE_NAME
+				+ " WHERE (math + chemistry + physics) / 3 > " + percentage;
+		Display
+				._printMessage(
+						"\n\t\tThe number students who percentage is greater than : " + percentage + " \n\t\tThen CutOff : ");
+		return ModelOperation.getSpecific(query, "Unknown");
 	}
 
 	/**

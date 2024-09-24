@@ -234,6 +234,12 @@ public class Display extends Thread implements Content, Colors {
             COMMANDS_RULES.length() + 26);
         _printMessage("\n\t\tCommand -> ");
         break;
+      case 9:
+        System.out.println(GREEN + """
+            \n\t\tRules:
+              \t\t\t1. Percentage between 57.50 to 93.50
+              \t\t\t2. Only Valid Actual decimal digit
+              """ + RESET);
       default:
         break;
     }
